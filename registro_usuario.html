@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffff;
+        }
+
+        .contenedor {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 20px;
+            /* Espaciado para dispositivos pequeños */
+        }
+
+        /* Estilos de los círculos */
+        .circulo {
+            width: 15rem;
+            height: 15rem;
+            background: #223e54;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .circulo-superior {
+            top: -7rem;
+            left: -7rem;
+        }
+
+        .circulo-inferior {
+            bottom: -7rem;
+            right: -7rem;
+        }
+
+        /* Estilos del formulario */
+        .formulario {
+            background-color: #f0f0f0;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            /* Asegura que el formulario esté por encima de los círculos */
+        }
+
+        .formulario h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .formulario input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .formulario button {
+            width: 100%;
+            padding: 0.8rem;
+            background: #223e54;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .formulario button:hover {
+            background: #1a2e3e;
+        }
+
+        /* Mensaje de error */
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* Estilos del rectángulo azul */
+        .rectangulo-azul {
+            background-color: #012b4b;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            height: 300px;
+            /* Aumenté la altura del rectángulo azul */
+            margin-top: 2rem;
+            /* Espaciado entre el formulario y el rectángulo */
+            z-index: 1;
+            /* Asegura que el rectángulo esté por encima de los círculos */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centra el contenido verticalmente */
+            align-items: center;
+            /* Centra el contenido horizontalmente */
+        }
+
+        .rectangulo-azul h2 {
+            color: white;
+            margin-bottom: 1rem;
+            /* Espaciado entre el título y el párrafo */
+        }
+
+        .rectangulo-azul p {
+            color: rgb(255, 255, 255);
+            font-size: 1rem;
+            /* Tamaño del texto */
+            line-height: 1.5;
+            /* Espaciado entre líneas */
+            text-align: center;
+            /* Alineación del texto */
+        }
+
+        @media (max-width: 768px) {
+            .contenedor {
+                flex-direction: column;
+                /* Cambia a columna en pantallas pequeñas */
+                align-items: center;
+                text-align: center;
+            }
+
+            .formulario {
+                max-width: 90%;
+            }
+
+            .rectangulo-azul {
+                max-width: 90%;
+                height: auto;
+                /* Ajusta la altura automáticamente */
+                padding: 1.5rem;
+                margin-top: 1rem;
+                /* Menos espacio en móviles */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .circulo {
+                width: 6rem;
+                height: 6rem;
+            }
+
+            .circulo-superior {
+                top: -3rem;
+                left: -3rem;
+            }
+
+            .circulo-inferior {
+                bottom: -3rem;
+                right: -3rem;
+            }
+
+            .formulario h2,
+            .rectangulo-azul h2 {
+                font-size: 1.2rem;
+            }
+
+            .formulario input,
+            .formulario button {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+
+            .rectangulo-azul {
+                height: auto;
+                padding: 1rem;
+            }
+        }
+
+        .Recuerdame {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            /* Espacio entre el checkbox y el texto */
+        }
+
+        .ya-cuenta {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .ya-cuenta:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        <div class="circulo circulo-superior"></div>
+        <div class="circulo circulo-inferior"></div>
+        <div class="formulario">
+            <h2>Registro de usuario</h2>
+            <form id="registroForm">
+                <input type="text" autocomplete="off" id="nombreCompleto" placeholder="Nombre completo" required>
+                <input type="text" autocomplete="off" id="usuario" placeholder="Usuario" required>
+                <input type="email" autocomplete="off" id="correo" placeholder="Correo electrónico" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+                <p class="error" id="errorMensaje">⚠ Las contraseñas no coinciden</p>
+
+                <!-- Agregamos la opción de "Recuerdame" y el enlace -->
+                <div class="Recuerdame">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="Recuerdame"> Recuerdame
+                    </label>
+                    <a href="login.html" class="ya-cuenta">¿Ya tienes una cuenta?</a>
+                </div>
+
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+
+        <div class="rectangulo-azul">
+            <h2>Le damos la bienvenida</h2>
+            <p>Gestione su sistema de inventario para registrar y controlar los insumos de manera organizada.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("registroForm").addEventListener("submit", function (event) {
+            let nombreCompleto = document.getElementById("nombreCompleto").value;
+            let usuario = document.getElementById("usuario").value;
+            let correo = document.getElementById("correo").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+            let errorMensaje = document.getElementById("errorMensaje");
+
+            if (password !== confirmPassword) {
+                errorMensaje.style.display = "block";
+                event.preventDefault();
+            } else {
+                errorMensaje.style.display = "none";
+                document.getElementById("infoNombre").textContent = nombreCompleto;
+                document.getElementById("infoUsuario").textContent = usuario;
+                document.getElementById("infoCorreo").textContent = correo;
+            }
+        });
+    </script>
+</body>
+
+</html>
