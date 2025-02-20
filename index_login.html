@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <style>
+        @font-face {
+            font-family: 'Montaser Arabic';
+            src: url('fonts_login/MontaserArabic.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans';
+            src: url('fonts_login/OpenSans.ttf') format('truetype');
+        }
+
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            position: center;
+            width: 1000px;
+            height: 450px;
+        }
+
+        .welcome-box {
+            background: #012b4b;
+            position: relative;
+            left: 50%;
+            color: white;
+            width: 30%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+
+            background-image: url('icons_login/Imagen1.png');
+            background-size: 85%;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }
+
+        .welcome-box h1 {
+            font-family: 'Montaser Arabic', sans-serif;
+        }
+
+        .welcome-box p {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .login-box {
+            background: #F0F0F0;
+            padding: 40px;
+            width: 30%;
+            height: 60%;
+            position: relative;
+            left: -23%;
+            top: 55%;
+            transform: translateY(-50%);
+            box-shadow: 50px 2px 50px rgba(0, 0, 0, 0.425);
+            border-top-right-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+
+        .login-box h2 {
+            font-family: 'Montaser Arabic', sans-serif;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .login-box input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            border: 3px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .options a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .options input[type="checkbox"] {
+            margin: 10;
+        }
+
+        button {
+            width: 35%;
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+
+        }
+
+        button img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        button::before {
+
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="welcome-box">
+            <h1>¡Le Damos La Bienvenida!</h1>
+            <p>Gestione su sistema de inventario para registrar y controlar los insumos de manera organizada</p>
+        </div>
+
+
+        <div class="login-box">
+            <h2>Inicio de Sesión</h2>
+            <form>
+                <input type="text" placeholder="Correo Electrónico o usuario">
+                <input type="password" placeholder="Contraseña">
+                <div class="options">
+                    <label for="recordarme">
+                        <input type="checkbox" id="recordarme"> Recordarme
+                    </label>
+                    <a href="#">¿Aún no tienes cuenta?</a>
+                </div>
+                <button type="submit">
+                    <img src="icons_login/Imagen2.png" alt="icono" width="20">
+                    Ingresar
+                </button>
+            </form>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
