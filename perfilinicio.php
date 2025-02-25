@@ -1,4 +1,5 @@
-<html lang="en"><head>
+<?php
+echo '<html lang="en"><head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -286,3 +287,4 @@ function cambiarParametrom(nuevoValor) {
             });
         };
 </script>
+';
