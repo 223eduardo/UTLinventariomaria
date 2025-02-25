@@ -7,13 +7,13 @@
     <title>Inicio de Sesión</title>
     <style>
         @font-face {
-            font-family: 'Montaser Arabic';
-            src: url('fonts_login/MontaserArabic.otf') format('opentype');
+            font-family: "Montaser Arabic";
+            src: url("fonts_login/MontaserArabic.otf") format("opentype");
         }
 
         @font-face {
-            font-family: 'Open Sans';
-            src: url('fonts_login/OpenSans.ttf') format('truetype');
+            font-family: "Open Sans";
+            src: url("fonts_login/OpenSans.ttf") format("truetype");
         }
 
 
@@ -48,7 +48,7 @@
             text-align: center;
             padding: 40px;
 
-            background-image: url('icons_login/Imagen1.png');
+            background-image: url("icons_login/Imagen1.png");
             background-size: 85%;
             background-position: center;
             background-repeat: no-repeat;
@@ -56,11 +56,11 @@
         }
 
         .welcome-box h1 {
-            font-family: 'Montaser Arabic', sans-serif;
+            font-family: "Montaser Arabic", sans-serif;
         }
 
         .welcome-box p {
-            font-family: 'Open Sans', sans-serif;
+            font-family: "Open Sans", sans-serif;
         }
 
         .login-box {
@@ -78,7 +78,7 @@
         }
 
         .login-box h2 {
-            font-family: 'Montaser Arabic', sans-serif;
+            font-family: "Montaser Arabic", sans-serif;
             margin-bottom: 20px;
             color: #2c3e50;
             text-align: center;
@@ -153,23 +153,63 @@
 
         <div class="login-box">
             <h2>Inicio de Sesión</h2>
-            <form>
-                <input type="text" placeholder="Correo Electrónico o usuario">
-                <input type="password" placeholder="Contraseña">
+            <div>
+            <div style="
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+"><div id="ale" hidden>Alerta: </div></div>
+                
+                <input type="text" placeholder="Correo Electrónico o usuario" id="correo">
+                <input type="password" placeholder="Contraseña" id="password">
                 <div class="options">
                     <label for="recordarme">
                         <input type="checkbox" id="recordarme"> Recordarme
                     </label>
-                    <a href="#">¿Aún no tienes cuenta?</a>
+                    <a href="../index.php?m=Register">¿Aún no tienes cuenta?</a>
                 </div>
-                <button type="submit">
-                    <img src="icons_login/Imagen2.png" alt="icono" width="20">
-                    Ingresar
-                </button>
-            </form>
+                    <button onclick="reg()">Ingresar</button>
+            </div>
         </div>
 
+        <script>
+        function reg(){
+            let correo = document.getElementById("correo").value;
+            let password = document.getElementById("password").value;
+            let errorMensaje = document.getElementById("ale");
 
+            dtos = "";
+
+            fetch("php/iniciosesion.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Token": "123456"
+                },
+                body: JSON.stringify({
+                    email: correo,
+                    pass: password,
+                })
+            })
+            .then(response => response.json()) // Cambia a .json() para parsear la respuesta como JSON
+            .then(data => {
+                console.log(data);
+                if (data.message === "completo") { // Verifica si el mensaje es "completo"
+                    window.location.href = "../index.php?m=p";
+                } else {
+                    errorMensaje.innerText = data.message || "Error desconocido";
+                    errorMensaje.removeAttribute("hidden");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                errorMensaje.innerText = "Error en la solicitud";
+            });
+        };
+    </script>
+        
     </div>
 </body>
 
