@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de usuario</title>
+    <title>Registro</title>
     <style>
         * {
             margin: 0;
@@ -52,9 +52,8 @@
         .formulario {
             background-color: #f0f0f0;
             padding: 2rem;
-            border-top-right-radius: 50px;
-            border-bottom-left-radius: 50px;
-            box-shadow: 50px 2px 50px rgba(0, 0, 0, 0.425);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
             text-align: center;
@@ -71,8 +70,8 @@
             width: 100%;
             padding: 0.8rem;
             margin: 0.5rem 0;
-            border: 3px solid #ccc;
-            border-radius: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 1rem;
         }
 
@@ -85,11 +84,6 @@
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            /* Espacio entre el icono y el texto */
         }
 
         .formulario button:hover {
@@ -108,24 +102,24 @@
         .rectangulo-azul {
             background-color: #012b4b;
             padding: 2rem;
+            border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 360px;
-            width: 70%;
-            height: 460px;
+            max-width: 450px;
+            width: 100%;
+            height: 300px;
+            /* Aumenté la altura del rectángulo azul */
             margin-top: 2rem;
+            /* Espaciado entre el formulario y el rectángulo */
             z-index: 1;
+            /* Asegura que el rectángulo esté por encima de los círculos */
             display: flex;
             flex-direction: column;
             justify-content: center;
+            /* Centra el contenido verticalmente */
             align-items: center;
-            background-image: url('icons_login/Imagen1.png');
-            background-size: contain;
-            /* Ajusta la imagen sin recortar */
-            background-position: center;
-            background-repeat: no-repeat;
+            /* Centra el contenido horizontalmente */
         }
-
 
         .rectangulo-azul h2 {
             color: white;
@@ -231,7 +225,7 @@
         <div class="circulo circulo-inferior"></div>
         <div class="formulario">
             <h2>Registro de usuario</h2>
-            <form id="registroForm">
+            <div id="registroForm">
                 <input type="text" autocomplete="off" id="nombreCompleto" placeholder="Nombre completo" required>
                 <input type="text" autocomplete="off" id="usuario" placeholder="Usuario" required>
                 <input type="email" autocomplete="off" id="correo" placeholder="Correo electrónico" required>
@@ -244,41 +238,97 @@
                     <label class="checkbox-label">
                         <input type="checkbox" id="Recuerdame"> Recuerdame
                     </label>
-                    <a href="index_login.html" class="ya-cuenta">¿Ya tienes una cuenta?</a>
+                    <a href="../index.php?m=Login" class="ya-cuenta">¿Ya tienes una cuenta?</a>
                 </div>
 
-                <button type="submit">
-                    <img src="icons_login/Imagen2.png" alt="Icono registro" width="20" height="20"> Registrarse
-                </button>
-            </form>
+                <button onclick="reg()">Registrarse</button>
+            </div>
         </div>
 
         <div class="rectangulo-azul">
-            <h2>¡Le damos la bienvenida!</h2>
+            <h2>Le damos la bienvenida</h2>
             <p>Gestione su sistema de inventario para registrar y controlar los insumos de manera organizada.</p>
         </div>
     </div>
+<script>
+    function reg() {
+        let nombreCompleto = document.getElementById("nombreCompleto").value.trim();
+        let usuario = document.getElementById("usuario").value.trim();
+        let correo = document.getElementById("correo").value.trim();
+        let password = document.getElementById("password").value.trim();
+        let confirmPassword = document.getElementById("confirmPassword").value.trim();
+        let errorMensaje = document.getElementById("errorMensaje");
 
-    <script>
-        document.getElementById("registroForm").addEventListener("submit", function (event) {
-            let nombreCompleto = document.getElementById("nombreCompleto").value;
-            let usuario = document.getElementById("usuario").value;
-            let correo = document.getElementById("correo").value;
-            let password = document.getElementById("password").value;
-            let confirmPassword = document.getElementById("confirmPassword").value;
-            let errorMensaje = document.getElementById("errorMensaje");
+        // Reinicia el mensaje de error
+        errorMensaje.style.display = "none";
+        errorMensaje.innerText = "";
 
-            if (password !== confirmPassword) {
-                errorMensaje.style.display = "block";
-                event.preventDefault();
+        // Validación de campos vacíos
+        if (nombreCompleto === "" || usuario === "" || correo === "" || password === "" || confirmPassword === "") {
+            errorMensaje.innerText = "⚠ Todos los campos son obligatorios.";
+            errorMensaje.style.display = "block";
+            return; // Detiene la ejecución si hay campos vacíos
+        }
+
+        // Validación de contraseñas coincidentes
+        if (password !== confirmPassword) {
+            errorMensaje.innerText = "⚠ Las contraseñas no coinciden.";
+            errorMensaje.style.display = "block";
+            return; // Detiene la ejecución si las contraseñas no coinciden
+        }
+
+        // Validación de formato de correo electrónico
+        if (!validarCorreo(correo)) {
+            errorMensaje.innerText = "⚠ Ingresa un correo electrónico válido.";
+            errorMensaje.style.display = "block";
+            return; // Detiene la ejecución si el correo no es válido
+        }
+
+        // Validación de longitud de la contraseña
+        if (password.length < 8) {
+            errorMensaje.innerText = "⚠ La contraseña debe tener al menos 8 caracteres.";
+            errorMensaje.style.display = "block";
+            return; // Detiene la ejecución si la contraseña es demasiado corta
+        }
+
+        // Si todas las validaciones pasan, envía los datos al servidor
+        fetch("php/registro.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Token": "123456"
+            },
+            body: JSON.stringify({
+                nombre: nombreCompleto,
+                user: usuario,
+                email: correo,
+                pass: password,
+                cpass: confirmPassword
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.message === "completo") {
+                window.location.href = "../index.php?m=p"; // Redirige si el registro es exitoso
             } else {
-                errorMensaje.style.display = "none";
-                document.getElementById("infoNombre").textContent = nombreCompleto;
-                document.getElementById("infoUsuario").textContent = usuario;
-                document.getElementById("infoCorreo").textContent = correo;
+                errorMensaje.innerText = data.message || "Error desconocido"; // Muestra el mensaje de error
+                errorMensaje.style.display = "block";
             }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            errorMensaje.innerText = "Error en la solicitud";
+            errorMensaje.style.display = "block";
         });
-    </script>
+    }
+
+    // Función para validar el formato del correo electrónico
+    function validarCorreo(correo) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular para validar correos
+        return regex.test(correo); // Devuelve true si el correo es válido
+    }
+</script>
 </body>
 
 </html>
