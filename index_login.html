@@ -27,6 +27,25 @@
             font-family: Arial, sans-serif;
         }
 
+        .circulo {
+            width: 15rem;
+            height: 15rem;
+            background: #223e54;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+
+        .circulo-superior {
+            top: -7rem;
+            left: -7rem;
+        }
+
+        .circulo-inferior {
+            bottom: -7rem;
+            right: -7rem;
+        }
+
         .container {
             display: flex;
             position: center;
@@ -145,6 +164,9 @@
 <body>
     <div class="container">
 
+        <div class="circulo circulo-superior"></div>
+        <div class="circulo circulo-inferior"></div>
+
         <div class="welcome-box">
             <h1>¡Le Damos La Bienvenida!</h1>
             <p>Gestione su sistema de inventario para registrar y controlar los insumos de manera organizada</p>
@@ -154,14 +176,16 @@
         <div class="login-box">
             <h2>Inicio de Sesión</h2>
             <div>
-            <div style="
+                <div style="
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
     align-items: center;
-"><div id="ale" hidden>Alerta: </div></div>
-                
+">
+                    <div id="ale" hidden>Alerta: </div>
+                </div>
+
                 <input type="text" placeholder="Correo Electrónico o usuario" id="correo">
                 <input type="password" placeholder="Contraseña" id="password">
                 <div class="options">
@@ -170,46 +194,46 @@
                     </label>
                     <a href="../index.php?m=Register">¿Aún no tienes cuenta?</a>
                 </div>
-                    <button onclick="reg()">Ingresar</button>
+                <button onclick="reg()">Ingresar</button>
             </div>
         </div>
 
         <script>
-        function reg(){
-            let correo = document.getElementById("correo").value;
-            let password = document.getElementById("password").value;
-            let errorMensaje = document.getElementById("ale");
+            function reg() {
+                let correo = document.getElementById("correo").value;
+                let password = document.getElementById("password").value;
+                let errorMensaje = document.getElementById("ale");
 
-            dtos = "";
+                dtos = "";
 
-            fetch("php/iniciosesion.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Token": "123456"
-                },
-                body: JSON.stringify({
-                    email: correo,
-                    pass: password,
+                fetch("php/iniciosesion.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Token": "123456"
+                    },
+                    body: JSON.stringify({
+                        email: correo,
+                        pass: password,
+                    })
                 })
-            })
-            .then(response => response.json()) // Cambia a .json() para parsear la respuesta como JSON
-            .then(data => {
-                console.log(data);
-                if (data.message === "completo") { // Verifica si el mensaje es "completo"
-                    window.location.href = "../index.php?m=p";
-                } else {
-                    errorMensaje.innerText = data.message || "Error desconocido";
-                    errorMensaje.removeAttribute("hidden");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                errorMensaje.innerText = "Error en la solicitud";
-            });
-        };
-    </script>
-        
+                    .then(response => response.json()) // Cambia a .json() para parsear la respuesta como JSON
+                    .then(data => {
+                        console.log(data);
+                        if (data.message === "completo") { // Verifica si el mensaje es "completo"
+                            window.location.href = "../index.php?m=p";
+                        } else {
+                            errorMensaje.innerText = data.message || "Error desconocido";
+                            errorMensaje.removeAttribute("hidden");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        errorMensaje.innerText = "Error en la solicitud";
+                    });
+            };
+        </script>
+
     </div>
 </body>
 
