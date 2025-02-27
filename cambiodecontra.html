@@ -60,69 +60,59 @@
     </div>
    </div>
    <!-- Main Content -->
-   <div class="flex-1">
-    <div class="bg-blue-800 text-white p-4">
-     <h1 class="text-xl font-semibold">
-      Perfil
-     </h1>
+        <div class="flex-1">
+            <div class="bg-blue-800 text-white p-4">
+                <h1 class="text-xl font-semibold">Perfil</h1>
+            </div>
+            <div class="p-8">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center mb-6">
+                        <img alt="Foto de perfil" class="w-24 h-24 rounded-full" src="https://replicate.delivery/xezq/vKWSDNFq7PK3NNv1G4CtffYchNlcKdnQ396tesmC2fY0WwJRB/out-0.webp">
+                        <div class="ml-4">
+                            <h2 class="text-xl font-semibold text-gray-700">McClovin</h2>
+                            <p class="text-gray-500">Administrador</p>
+                        </div>
+                    </div>
+                    <div class="border-b border-gray-300 mb-6">
+                        <nav class="flex space-x-6">
+                            <a class="text-gray-700 hover:text-blue-800" onclick=(cambiarParametroN("p"))>Perfil</a>
+                            <a class="text-blue-800 border-b-2 border-blue-800 pb-1" onclick=(cambiarParametroN("c"))>Contraseña</a>
+                        </nav>
+                    </div>
+                    <form>
+                        <div class="space-y-6">
+                            <div class="w-full md:w-3/4 mx-auto">
+                                <label class="block text-gray-700 text-sm font-semibold mb-2" for="old-password">
+                                    Antigua contraseña
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50" id="old-password" type="password" placeholder="Ingrese su contraseña actual">
+                            </div>
+                            <div class="w-full md:w-3/4 mx-auto">
+                                <label class="block text-gray-700 text-sm font-semibold mb-2" for="new-password">
+                                    Nueva contraseña
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50" id="new-password" type="password" placeholder="Ingrese su nueva contraseña">
+                            </div>
+                            <div class="w-full md:w-3/4 mx-auto">
+                                <label class="block text-gray-700 text-sm font-semibold mb-2" for="confirm-password">
+                                    Confirmar contraseña
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50" id="confirm-password" type="password" placeholder="Confirme su contraseña">
+                            </div>
+                        </div>
+                        <div class="flex justify-center space-x-4 mt-6">
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                Cancelar
+                            </button>
+                            <button class="bg-blue-800 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                Cambiar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="p-8">
-     <div class="bg-white rounded-lg shadow-lg p-6">
-      <div class="flex items-center mb-6">
-       <img alt="Profile picture of McClovin" class="w-24 h-24 rounded-full" src="https://replicate.delivery/xezq/vKWSDNFq7PK3NNv1G4CtffYchNlcKdnQ396tesmC2fY0WwJRB/out-0.webp">
-       <div class="ml-4">
-        <h2 class="text-xl font-semibold text-gray-700">
-         McClovin
-        </h2>
-        <p class="text-gray-500">
-         Administrador
-        </p>
-       </div>
-      </div>
-      <div class="border-b border-gray-300 mb-6">
-       <nav class="flex space-x-6">
-        <a class="text-gray-700 hover:text-blue-800" onclick=(cambiarParametroN("p"))>
-         Perfil
-        </a>
-        <a class="text-blue-800 border-b-2 border-blue-800 pb-1" onclick=(cambiarParametroN("c"))>
-         Contraseña
-        </a>
-       </nav>
-      </div>
-      <form>
-       <div class="space-y-4">
-        <div>
-         <label class="block text-gray-700" for="old-password">
-          Antigua contraseña
-         </label>
-         <input class="w-full border border-gray-300 rounded-lg p-2" id="old-password" type="password">
-        </div>
-        <div>
-         <label class="block text-gray-700" for="new-password">
-          Nueva contraseña
-         </label>
-         <input class="w-full border border-gray-300 rounded-lg p-2" id="new-password" type="password">
-        </div>
-        <div>
-         <label class="block text-gray-700" for="confirm-password">
-          Confirmar contraseña
-         </label>
-         <input class="w-full border border-gray-300 rounded-lg p-2" id="confirm-password" type="password">
-        </div>
-       </div>
-       <div class="flex justify-end space-x-4 mt-6">
-        <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg" type="button">
-         Cancelar
-        </button>
-        <button class="bg-blue-800 text-white px-4 py-2 rounded-lg" type="submit">
-         Cambiar
-        </button>
-       </div>
-      </form>
-     </div>
-    </div>
-   </div>
-  </div>
  <script>function cambiarParametroN(nuevoValor) {
   // Obtener la URL actual
   let url = window.location.href;
