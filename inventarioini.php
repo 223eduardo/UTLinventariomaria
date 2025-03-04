@@ -112,6 +112,10 @@ cambiarParametrom("p");
 cambiarParametroN("p");
 }
 
+
+
+
+    <script>
 function cambiarParametroN(nuevoValor) {
   // Obtener la URL actual
   let url = window.location.href;
@@ -128,9 +132,7 @@ function cambiarParametroN(nuevoValor) {
   // Redirigir a la nueva URL
   window.location.href = nuevaUrl;
 }
-
-
-    <script>
+    
         function cambiarParametrom(nuevoValor) {
             let url = new URL(window.location.href);
             url.searchParams.set("m", nuevoValor);
