@@ -181,7 +181,7 @@ echo '<html lang="en"><head>
     <div class="p-8">
      <div class="bg-white rounded-lg shadow-lg p-6">
       <div class="flex items-center mb-6">
-       <img alt="Profile picture of McClovin" class="w-24 h-24 rounded-full" src="https://replicate.delivery/xezq/vKWSDNFq7PK3NNv1G4CtffYchNlcKdnQ396tesmC2fY0WwJRB/out-0.webp">
+       <img alt="Profile picture of McClovin" class="w-24 h-24 rounded-full" src="https://i.pinimg.com/736x/8b/ff/4a/8bff4a7645a1a2f322e0add49180cef8.jpg">
        <div class="ml-4">
         <h2 class="text-xl font-semibold text-gray-700">
          McClovin
