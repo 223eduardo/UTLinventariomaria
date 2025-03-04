@@ -107,15 +107,12 @@ echo '
         </div>
     </div>
 
+<script>
 function cam0() {
 cambiarParametrom("p");
 cambiarParametroN("p");
 }
 
-
-
-
-    <script>
 function cambiarParametroN(nuevoValor) {
   // Obtener la URL actual
   let url = window.location.href;
