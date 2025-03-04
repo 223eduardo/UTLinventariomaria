@@ -32,7 +32,7 @@ echo '
                     </li>
                     <li class="flex items-center px-4 py-2">
                         <i class="fas fa-user text-gray-500 mr-2"></i>
-                        <span class="text-gray-500" onclick=(cambiarParametrom("p"))>Perfil</span>
+                        <span class="text-gray-500" onclick=(cam0())>Perfil</span>
                     </li>
                 </ul>
             </nav>
@@ -106,6 +106,29 @@ echo '
             </div>
         </div>
     </div>
+
+function cam0() {
+cambiarParametrom("p");
+cambiarParametroN("p");
+}
+
+function cambiarParametroN(nuevoValor) {
+  // Obtener la URL actual
+  let url = window.location.href;
+
+  // Crear un objeto URL
+  let urlObj = new URL(url);
+
+  // Cambiar el valor del parámetro 
+  urlObj.searchParams.set("n", nuevoValor);
+
+  // Obtener la nueva URL como cadena de texto
+  let nuevaUrl = urlObj.toString();
+
+  // Redirigir a la nueva URL
+  window.location.href = nuevaUrl;
+}
+
 
     <script>
         function cambiarParametrom(nuevoValor) {
