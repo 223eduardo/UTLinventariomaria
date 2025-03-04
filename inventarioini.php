@@ -109,26 +109,23 @@ echo '
 
 <script>
 function cam0() {
-cambiarParametrom("p");
-cambiarParametroN("p");
+cambiarParametromdd("p","p");
 }
 
 function cambiarParametroN(nuevoValor) {
-  // Obtener la URL actual
   let url = window.location.href;
-
-  // Crear un objeto URL
   let urlObj = new URL(url);
-
-  // Cambiar el valor del parámetro 
   urlObj.searchParams.set("n", nuevoValor);
-
-  // Obtener la nueva URL como cadena de texto
   let nuevaUrl = urlObj.toString();
-
-  // Redirigir a la nueva URL
   window.location.href = nuevaUrl;
 }
+
+        function cambiarParametromdd(nuevoValor,valor2) {
+            let url = new URL(window.location.href);
+            url.searchParams.set("m", nuevoValor);
+            url.searchParams.set("n", valor2);
+            window.location.href = url.toString();
+        }
     
         function cambiarParametrom(nuevoValor) {
             let url = new URL(window.location.href);
