@@ -125,7 +125,7 @@ echo '
             .then(response => response.json())
             .then(data => {
                 if (data.message === "completo") {
-                    window.location.href = "../index.php?m=p";
+                    window.location.href = "../index.php?m=p&n=s";
                 } else {
                     alert(data.message || "Error desconocido");
                 }
