@@ -14,7 +14,7 @@ echo '
 <!-- Sidebar -->
 <div class="w-1/5 bg-white shadow-md relative">
     <div class="p-4 flex items-center justify-center">
-        <img src="icons_login/imagen2.png" class="w-8 h-8 mr-2">
+        <img src="icons_login/Imagen1.png" class="w-8 h-8 mr-2">
         <h1 class="text-xl font-bold text-blue-900">Almacén</h1>
     </div>
     <nav class="mt-4">
