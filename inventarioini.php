@@ -12,37 +12,39 @@ echo '
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-1/5 bg-white shadow-md">
-            <div class="p-4 text-center">
-                <h1 class="text-xl font-bold text-blue-900">Almacén</h1>
-            </div>
-            <nav class="mt-4">
-                <ul>
-                    <li class="flex items-center px-4 py-2 bg-gray-200">
-                        <i class="fas fa-box text-blue-900 mr-2"></i>
-                        <span class="text-gray-700" onclick=(cambiarParametrom("c"))>Inventario</span>
-                    </li>
-                    <li class="flex items-center px-4 py-2">
-                        <i class="fas fa-list text-gray-500 mr-2"></i>
-                        <span class="text-gray-500">Categoría</span>
-                    </li>
-                    <li class="flex items-center px-4 py-2">
-                        <i class="fas fa-hand-holding text-gray-500 mr-2"></i>
-                        <span class="text-gray-500">Préstamos</span>
-                    </li>
-                    <li class="flex items-center px-4 py-2">
-                        <i class="fas fa-user text-gray-500 mr-2"></i>
-                        <span class="text-gray-500" onclick=(cam0())>Perfil</span>
-                    </li>
-                </ul>
-            </nav>
-            <div class="absolute bottom-4 w-full">
-                <button class="flex items-center px-4 py-2 w-full text-gray-500">
-                    <i class="fas fa-sign-out-alt text-gray-500 mr-2"></i>
-                    <span onclick="ser()">Cerrar sesión</span>
-                </button>
-            </div>
-        </div>
+<div class="w-1/5 bg-white shadow-md relative">
+    <div class="p-4 flex items-center justify-center">
+        <img src="icons_login/imagen3.png" class="w-8 h-8 mr-2">
+        <h1 class="text-xl font-bold text-blue-900">Almacén</h1>
+    </div>
+    <nav class="mt-4">
+        <ul>
+            <li class="flex items-center px-4 py-2 bg-gray-200 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <img src="icons_login/1.png" class="w-5 h-5 mr-2">
+                <span class="text-gray-700 font-medium hover:text-blue-900" onclick=(cambiarParametrom("c"))>Inventario</span>
+            </li>
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <img src="icons_login/2.png" class="w-5 h-5 mr-2">
+                <span class="text-gray-500 hover:text-blue-900">Categoría</span>
+            </li>
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <img src="icons_login/3.png" class="w-5 h-5 mr-2">
+                <span class="text-gray-500 hover:text-blue-900">Préstamos</span>
+            </li>
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <img src="icons_login/4.png" class="w-5 h-5 mr-2">
+                <span class="text-gray-500 hover:text-blue-900" onclick=(cam0())>Perfil</span>
+            </li>
+        </ul>
+    </nav>
+    <div class="absolute bottom-4 left-0 w-full">
+        <button class="flex items-center px-4 py-2 w-full text-gray-500 rounded-lg transition-all duration-300 hover:bg-blue-100">
+            <img src="icons_login/5.png" class="w-5 h-5 mr-2">
+            <span onclick="ser()">Cerrar sesión</span>
+        </button>
+    </div>
+</div>
+
         <!-- Contenido Principal -->
         <div class="flex-1 p-6">
             <h1 class="text-2xl font-bold text-gray-800">Sistema web de inventario</h1>
