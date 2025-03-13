@@ -1,5 +1,3 @@
-<?php
-echo ' 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,7 +137,7 @@ echo '
         document.getElementById("buscador").addEventListener("keyup", function() {
             let query = this.value;
             
-            fetch("buscar.php?q=" + query)
+            fetch("php/buscar.php?q=" + query)
             .then(response => response.text())
             .then(data => {
                 document.getElementById("resultado").innerHTML = data;
@@ -150,4 +148,3 @@ echo '
 
 </body>
 </html>';
-?>
