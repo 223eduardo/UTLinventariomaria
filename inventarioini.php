@@ -1,179 +1,183 @@
 <?php
-echo ' 
-<!DOCTYPE html>
-<html lang="en">
+echo '<!DOCTYPE html>
+<html lang="es">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sistema web de inventario</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Almacén</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS anteriores */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #e3e6eb;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 500;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover,
+        .selected {
+            background-color: #bfc4cc;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #12263a;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="flex h-screen">
-<!-- Sidebar -->
-<div class="w-1/5 bg-white shadow-md relative">
-    <div class="p-4 flex items-center justify-center">
-        <i class="fas fa-warehouse" style="color: #012b4b; font-size: 32px; margin-right: 8px;"></i>
-        <h1 style="color: #012b4b; font-size: 1.25rem; font-weight: bold;">Almacén</h1>
-    </div>
-    <nav class="mt-4">
-        <ul>
-            <li class="flex items-center px-4 py-2 bg-gray-200 rounded-lg transition-all duration-300 hover:bg-blue-100">
-                <i class="fas fa-boxes text-[#012b4b] w-5 h-5 mr-2"></i>
-                <span class="text-gray-700 font-medium hover:text-blue-900" onclick=(cambiarParametrom("c"))>Inventario</span>
-            </li>
-            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
-                <i class="fas fa-tags text-[#012b4b] w-5 h-5 mr-2"></i>
-                <span class="text-gray-500 hover:text-blue-900">Categoría</span>
-            </li>
-            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
-                <i class="fas fa-handshake text-[#012b4b] w-5 h-5 mr-2"></i>
-                <span class="text-gray-500 hover:text-blue-900">Préstamos</span>
-            </li>
-            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
-                <i class="fas fa-user text-[#012b4b] w-5 h-5 mr-2"></i>
-                <span class="text-gray-500 hover:text-blue-900" onclick=(cam0())>Perfil</span>
-            </li>
-            <!-- Reportes agregado -->
-            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
-                <i class="fas fa-file-alt text-[#012b4b] w-5 h-5 mr-2"></i>
-                <span class="text-gray-500 hover:text-blue-900">Reportes</span>
-            </li>
-        </ul>
-    </nav>
-    <div class="absolute bottom-4 left-0 w-full">
-        <button class="flex items-center px-4 py-2 w-full text-gray-500 rounded-lg transition-all duration-300 hover:bg-blue-100">
-            <i class="fas fa-sign-out-alt text-[#012b4b] w-5 h-5 mr-2"></i>
-            <span onclick="ser()">Cerrar sesión</span>
-        </button>
-    </div>
-</div>
 
-        <!-- Contenido Principal -->
-        <div class="flex-1 p-6">
-            <h1 class="text-2xl font-bold text-gray-800">Sistema web de inventario</h1>
-            <div class="mt-4">
-                <div class="relative">
-                    <input id="buscador" class="w-full max-w-md px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buscar productos..." type="text"/>
-                    <i class="fas fa-search absolute top-3 right-4 text-gray-500"></i>
-                </div>
-            </div>
-            <!-- Resultados de la búsqueda -->
-            <div id="resultado" class="mt-6"></div>
+<body>
+    <div class="sidebar">
+        <h2>Almacén</h2>
+        <a href="#" class="selected">Producto</a>
+        <a href="#">Inventario</a>
+        <a href="#">Préstamos</a>
+        <a href="#">Reportes</a>
+        <a href="#">Perfil</a>
+        <a href="#">Cerrar sesión</a>
+    </div>
+    <div class="content">
+        <div class="header">Productos</div>
 
-            <div class="grid grid-cols-2 gap-6 mt-6">
-                <!-- Bajo en stock -->
-                <div>
-                    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
-                        <i class="fas fa-th mr-2"></i>
-                        <span>Bajo en stock</span>
-                    </div>
-                    <div class="bg-white shadow-md rounded-b-md p-4">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr>
-                                    <th class="border-b py-2 text-gray-700">Nombre</th>
-                                    <th class="border-b py-2 text-gray-700">Stock</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="border-b py-2 text-gray-600">Cable RJ-45</td>
-                                    <td class="border-b py-2 text-gray-600">3</td>
-                                </tr>
-                                <tr>
-                                    <td class="border-b py-2 text-gray-600">Leds</td>
-                                    <td class="border-b py-2 text-gray-600">7</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 text-gray-600">Arduino</td>
-                                    <td class="py-2 text-gray-600">2</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Añadidos recientemente -->
-                <div>
-                    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
-                        <i class="fas fa-th mr-2"></i>
-                        <span>Añadidos recientemente</span>
-                    </div>
-                    <div class="bg-white shadow-md rounded-b-md p-4">
-                        <div class="flex items-center">
-                            <img alt="Imagen de una tarjeta Arduino Uno" class="w-16 h-16 mr-4" src="https://placehold.co/64x64"/>
-                            <div>
-                                <p class="text-gray-700">Tarjeta Arduino Uno</p>
-                                <button class="text-blue-500 text-sm">Detalles</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Formulario de búsqueda -->
+        <input type="text" id="searchInput" placeholder="Buscar por nombre..." oninput="filterProducts()">
+
+        <!-- Tabla de productos -->
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Número de Serie</th>
+                    <th>Estante</th>
+                    <th>Asignado a</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Los datos se cargarán aquí dinámicamente -->
+            </tbody>
+        </table>
     </div>
 
-<script>
-function cam0() {
-cambiarParametromdd("p","p");
-}
+    <script>
+        // Variable global para almacenar los productos
+        let products = [];
 
-function cambiarParametroN(nuevoValor) {
-  let url = window.location.href;
-  let urlObj = new URL(url);
-  urlObj.searchParams.set("n", nuevoValor);
-  let nuevaUrl = urlObj.toString();
-  window.location.href = nuevaUrl;
-}
-
-        function cambiarParametromdd(nuevoValor,valor2) {
-            let url = new URL(window.location.href);
-            url.searchParams.set("m", nuevoValor);
-            url.searchParams.set("n", valor2);
-            window.location.href = url.toString();
-        }
-    
-        function cambiarParametrom(nuevoValor) {
-            let url = new URL(window.location.href);
-            url.searchParams.set("m", nuevoValor);
-            window.location.href = url.toString();
+        // Función para cargar los datos desde el servidor al iniciar la página
+        async function loadProducts() {
+            try {
+                const response = await fetch('index.php');
+                const data = await response.json();
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+                // Almacenar los datos en la variable global
+                products = data;
+                // Mostrar los datos en la tabla
+                renderTable(products);
+            } catch (error) {
+                console.error('Error al cargar los productos:', error);
+            }
         }
 
-        function ser() {
-            fetch("php/salir.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Token": "123456"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === "completo") {
-                    window.location.href = "../index.php?m=p&n=s";
-                } else {
-                    alert(data.message || "Error desconocido");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Error en la solicitud");
+        // Función para renderizar la tabla con los datos
+        function renderTable(data) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = ''; // Limpiar la tabla
+
+            data.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.tipo_producto}</td>
+                    <td>${product.nombre}</td>
+                    <td>${product.estado}</td>
+                    <td>${product.numero_de_serie}</td>
+                    <td>${product.estante}</td>
+                    <td>${product.persona_asignada}</td>
+                `;
+                tableBody.appendChild(row);
             });
         }
 
-        document.getElementById("buscador").addEventListener("keyup", function() {
-            let query = this.value;
-            
-            fetch("php/buscar.php?q=" + query)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("resultado").innerHTML = data;
-            })
-            .catch(error => console.error("Error:", error));
-        });
-    </script>
+        // Función para filtrar los productos por nombre
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.nombre.toLowerCase().includes(searchTerm)
+            );
+            renderTable(filteredProducts);
+        }
 
+        // Cargar los productos al cargar la página
+        window.onload = loadProducts;
+    </script>
 </body>
+
 </html>';
 ?>
