@@ -15,7 +15,7 @@ echo '
 <div class="w-1/5 bg-white shadow-md relative">
     <div class="p-4 flex items-center justify-center">
         <i class="fas fa-warehouse" style="color: #012b4b; font-size: 32px; margin-right: 8px;"></i>
-    <h1 style="color: #012b4b; font-size: 1.25rem; font-weight: bold;">Almacén</h1>
+        <h1 style="color: #012b4b; font-size: 1.25rem; font-weight: bold;">Almacén</h1>
     </div>
     <nav class="mt-4">
         <ul>
@@ -34,6 +34,11 @@ echo '
             <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
                 <i class="fas fa-user text-[#012b4b] w-5 h-5 mr-2"></i>
                 <span class="text-gray-500 hover:text-blue-900" onclick=(cam0())>Perfil</span>
+            </li>
+            <!-- Reportes agregado -->
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <i class="fas fa-file-alt text-[#012b4b] w-5 h-5 mr-2"></i>
+                <span class="text-gray-500 hover:text-blue-900">Reportes</span>
             </li>
         </ul>
     </nav>
