@@ -8,18 +8,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos CSS anteriores */
         body {
             font-family: 'Roboto', sans-serif;
+            display: flex;
             background-color: #f8f8f8;
+            /* Gris claro de fondo */
             margin: 0;
         }
+
         .sidebar {
             width: 250px;
             background-color: #e3e6eb;
+            /* Gris claro para la barra lateral */
             padding: 20px;
             height: 100vh;
         }
+
         .sidebar h2 {
             font-size: 22px;
             text-align: center;
@@ -27,6 +31,7 @@
             color: #333;
             font-weight: 500;
         }
+
         .sidebar a {
             display: block;
             padding: 10px;
@@ -36,10 +41,12 @@
             border-radius: 5px;
             transition: background-color 0.3s;
         }
+
         .sidebar a:hover,
         .selected {
             background-color: #bfc4cc;
         }
+
         .content {
             flex-grow: 1;
             padding: 30px;
@@ -48,41 +55,74 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 30px;
             color: #333;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+
+        .product-details label {
+            display: block;
+            font-weight: 500;
+            margin-top: 10px;
+
         }
-        th, td {
-            padding: 10px;
+
+        .product-details span,
+        .product-details input[type="text"],
+        .product-details input[type="number"],
+        .product-details input[type="file"] {
+            display: block;
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .product-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            margin-top: 20px;
             text-align: left;
         }
-        th {
-            background-color: #f2f2f2;
-        }
-        input[type="text"] {
-            padding: 8px;
-            width: 300px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            padding: 8px 15px;
+
+        .buttons button {
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
-            background-color: #12263a;
-            color: white;
             cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+            background-color: #12263a;
+            /* Color de los botones ajustado */
+            color: white;
         }
-        button:hover {
+
+        .buttons button:hover {
             opacity: 0.9;
+        }
+
+        .edit,
+        .delete,
+        .borrow,
+        .return,
+        .save,
+        .cancel {
+            background-color: #12263a;
+            /* Color de los botones ajustado */
+            color: white;
         }
     </style>
 </head>
@@ -99,83 +139,68 @@
     </div>
     <div class="content">
         <div class="header">Productos</div>
-
-        <!-- Formulario de búsqueda -->
-        <input type="text" id="searchInput" placeholder="Buscar por nombre..." oninput="filterProducts()">
-
-        <!-- Tabla de productos -->
-        <table id="productTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tipo</th>
-                    <th>Nombre</th>
-                    <th>Estado</th>
-                    <th>Número de Serie</th>
-                    <th>Estante</th>
-                    <th>Asignado a</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- Los datos se cargarán aquí dinámicamente -->
-            </tbody>
-        </table>
+        <div class="product-details" id="view-mode">
+            <label>Nombre:</label>
+            <span id="name-text"></span>
+            <label>Cantidad:</label>
+            <span id="quantity-text"></span>
+            <label>Detalles:</label>
+            <span id="details-text"></span>
+            <label>Estado:</label>
+            <span id="status-text"></span>
+            <img class="product-image" id="product-image"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/LED_5mm_red.png/600px-LED_5mm_red.png"
+                alt="Led">
+            <div class="buttons">
+                <button class="delete"><i class="fas fa-trash"></i> Eliminar</button>
+                <button class="edit" onclick="switchToEditMode()"><i class="fas fa-edit"></i> Editar</button>
+                <button class="borrow">Prestar</button>
+                <button class="return">Reintegrar</button>
+            </div>
+        </div>
+        <div class="product-details" id="edit-mode" style="display:none;">
+            <label>Nombre:</label>
+            <input type="text" id="name-input" value="Led">
+            <label>Cantidad:</label>
+            <input type="number" id="quantity-input" value="30">
+            <label>Detalles:</label>
+            <input type="text" id="details-input" value="LED 5 mm para encender en Arduino">
+            <label>Imagen:</label>
+            <input type="file" id="image-input" accept="image/*">
+            <div class="buttons">
+                <button class="save" onclick="saveChanges()"><i class="fas fa-save"></i> Guardar</button>
+                <button class="cancel" onclick="switchToViewMode()"><i class="fas fa-times"></i> Cancelar</button>
+            </div>
+        </div>
     </div>
-
     <script>
-        // Variable global para almacenar los productos
-        let products = [];
+        function switchToEditMode() {
+            document.getElementById('view-mode').style.display = 'none';
+            document.getElementById('edit-mode').style.display = 'block';
+        }
+        function switchToViewMode() {
+            document.getElementById('view-mode').style.display = 'block';
+            document.getElementById('edit-mode').style.display = 'none';
+        }
+        function saveChanges() {
+            document.getElementById('name-text').textContent = document.getElementById('name-input').value;
+            document.getElementById('quantity-text').textContent = document.getElementById('quantity-input').value;
+            document.getElementById('details-text').textContent = document.getElementById('details-input').value;
+            switchToViewMode();
+        }
 
-        // Función para cargar los datos desde el servidor al iniciar la página
-        async function loadProducts() {
-            try {
-                const response = await fetch('index.php');
-                const data = await response.json();
-                if (data.error) {
-                    console.error(data.error);
-                    return;
+        // Función para mostrar la imagen cargada
+        document.getElementById('image-input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('product-image').src = e.target.result;
                 }
-                // Almacenar los datos en la variable global
-                products = data;
-                // Mostrar los datos en la tabla
-                renderTable(products);
-            } catch (error) {
-                console.error('Error al cargar los productos:', error);
+                reader.readAsDataURL(file);
             }
-        }
-
-        // Función para renderizar la tabla con los datos
-        function renderTable(data) {
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = ''; // Limpiar la tabla
-
-            data.forEach(product => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${product.id}</td>
-                    <td>${product.tipo_producto}</td>
-                    <td>${product.nombre}</td>
-                    <td>${product.estado}</td>
-                    <td>${product.numero_de_serie}</td>
-                    <td>${product.estante}</td>
-                    <td>${product.persona_asignada}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Función para filtrar los productos por nombre
-        function filterProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredProducts = products.filter(product =>
-                product.nombre.toLowerCase().includes(searchTerm)
-            );
-            renderTable(filteredProducts);
-        }
-
-        // Cargar los productos al cargar la página
-        window.onload = loadProducts;
+        });
     </script>
 </body>
 
-</html>';
+</html>
