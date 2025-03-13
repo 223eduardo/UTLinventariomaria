@@ -101,8 +101,7 @@
         <div class="header">Productos</div>
 
         <!-- Formulario de búsqueda -->
-        <input type="text" id="searchInput" placeholder="Buscar por nombre...">
-        <button onclick="filterProducts()">Buscar</button>
+        <input type="text" id="searchInput" placeholder="Buscar por nombre..." oninput="filterProducts()">
 
         <!-- Tabla de productos -->
         <table id="productTable">
@@ -124,7 +123,10 @@
     </div>
 
     <script>
-        // Función para cargar los datos desde el servidor
+        // Variable global para almacenar los productos
+        let products = [];
+
+        // Función para cargar los datos desde el servidor al iniciar la página
         async function loadProducts() {
             try {
                 const response = await fetch('index.php');
@@ -133,10 +135,10 @@
                     console.error(data.error);
                     return;
                 }
-                // Guardar los datos en una variable global
-                window.products = data;
+                // Almacenar los datos en la variable global
+                products = data;
                 // Mostrar los datos en la tabla
-                renderTable(data);
+                renderTable(products);
             } catch (error) {
                 console.error('Error al cargar los productos:', error);
             }
@@ -165,7 +167,7 @@
         // Función para filtrar los productos por nombre
         function filterProducts() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredProducts = window.products.filter(product =>
+            const filteredProducts = products.filter(product =>
                 product.nombre.toLowerCase().includes(searchTerm)
             );
             renderTable(filteredProducts);
