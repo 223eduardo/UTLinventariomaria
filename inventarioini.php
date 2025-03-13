@@ -1,206 +1,153 @@
+<?php
+echo ' 
 <!DOCTYPE html>
- <html lang="es">
- 
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Productos - Almacén</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-     <style>
-         body {
-             font-family: 'Roboto', sans-serif;
-             display: flex;
-             background-color: #f8f8f8;
-             /* Gris claro de fondo */
-             margin: 0;
-         }
- 
-         .sidebar {
-             width: 250px;
-             background-color: #e3e6eb;
-             /* Gris claro para la barra lateral */
-             padding: 20px;
-             height: 100vh;
-         }
- 
-         .sidebar h2 {
-             font-size: 22px;
-             text-align: center;
-             margin-bottom: 30px;
-             color: #333;
-             font-weight: 500;
-         }
- 
-         .sidebar a {
-             display: block;
-             padding: 10px;
-             color: #333;
-             text-decoration: none;
-             margin-top: 10px;
-             border-radius: 5px;
-             transition: background-color 0.3s;
-         }
- 
-         .sidebar a:hover,
-         .selected {
-             background-color: #bfc4cc;
-         }
- 
-         .content {
-             flex-grow: 1;
-             padding: 30px;
-             background-color: white;
-             margin: 20px;
-             border-radius: 10px;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-         }
- 
-         .header {
-             font-size: 24px;
-             font-weight: 700;
-             margin-bottom: 30px;
-             color: #333;
-         }
- 
-         .product-details label {
-             display: block;
-             font-weight: 500;
-             margin-top: 10px;
- 
-         }
- 
-         .product-details span,
-         .product-details input[type="text"],
-         .product-details input[type="number"],
-         .product-details input[type="file"] {
-             display: block;
-             width: calc(100% - 20px);
-             padding: 8px;
-             margin-top: 5px;
-             border-radius: 5px;
-             border: 1px solid #ccc;
-             box-sizing: border-box;
-             font-size: 16px;
-         }
- 
-         .product-image {
-             display: block;
-             margin: 20px auto;
-             max-width: 200px;
-             border-radius: 8px;
-             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-         }
- 
-         .buttons {
-             margin-top: 20px;
-             text-align: left;
-         }
- 
-         .buttons button {
-             padding: 10px 15px;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-             font-size: 16px;
-             margin-right: 10px;
-             transition: background-color 0.3s;
-             background-color: #12263a;
-             /* Color de los botones ajustado */
-             color: white;
-         }
- 
-         .buttons button:hover {
-             opacity: 0.9;
-         }
- 
-         .edit,
-         .delete,
-         .borrow,
-         .return,
-         .save,
-         .cancel {
-             background-color: #12263a;
-             /* Color de los botones ajustado */
-             color: white;
-         }
-     </style>
- </head>
- 
- <body>
-     <div class="sidebar">
-         <h2>Almacén</h2>
-         <a href="#" class="selected">Producto</a>
-         <a href="#">Inventario</a>
-         <a href="#">Préstamos</a>
-         <a href="#">Reportes</a>
-         <a href="#">Perfil</a>
-         <a href="#">Cerrar sesión</a>
-     </div>
-     <div class="content">
-         <div class="header">Productos</div>
-         <div class="product-details" id="view-mode">
-             <label>Nombre:</label>
-             <span id="name-text"></span>
-             <label>Cantidad:</label>
-             <span id="quantity-text"></span>
-             <label>Detalles:</label>
-             <span id="details-text"></span>
-             <label>Estado:</label>
-             <span id="status-text"></span>
-             <img class="product-image" id="product-image"
-                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/LED_5mm_red.png/600px-LED_5mm_red.png"
-                 alt="Led">
-             <div class="buttons">
-                 <button class="delete"><i class="fas fa-trash"></i> Eliminar</button>
-                 <button class="edit" onclick="switchToEditMode()"><i class="fas fa-edit"></i> Editar</button>
-                 <button class="borrow">Prestar</button>
-                 <button class="return">Reintegrar</button>
-             </div>
-         </div>
-         <div class="product-details" id="edit-mode" style="display:none;">
-             <label>Nombre:</label>
-             <input type="text" id="name-input" value="Led">
-             <label>Cantidad:</label>
-             <input type="number" id="quantity-input" value="30">
-             <label>Detalles:</label>
-             <input type="text" id="details-input" value="LED 5 mm para encender en Arduino">
-             <label>Imagen:</label>
-             <input type="file" id="image-input" accept="image/*">
-             <div class="buttons">
-                 <button class="save" onclick="saveChanges()"><i class="fas fa-save"></i> Guardar</button>
-                 <button class="cancel" onclick="switchToViewMode()"><i class="fas fa-times"></i> Cancelar</button>
-             </div>
-         </div>
-     </div>
-     <script>
-         function switchToEditMode() {
-             document.getElementById('view-mode').style.display = 'none';
-             document.getElementById('edit-mode').style.display = 'block';
-         }
-         function switchToViewMode() {
-             document.getElementById('view-mode').style.display = 'block';
-             document.getElementById('edit-mode').style.display = 'none';
-         }
-         function saveChanges() {
-             document.getElementById('name-text').textContent = document.getElementById('name-input').value;
-             document.getElementById('quantity-text').textContent = document.getElementById('quantity-input').value;
-             document.getElementById('details-text').textContent = document.getElementById('details-input').value;
-             switchToViewMode();
-         }
- 
-         // Función para mostrar la imagen cargada
-         document.getElementById('image-input').addEventListener('change', function (event) {
-             const file = event.target.files[0];
-             if (file) {
-                 const reader = new FileReader();
-                 reader.onload = function (e) {
-                     document.getElementById('product-image').src = e.target.result;
-                 }
-                 reader.readAsDataURL(file);
-             }
-         });
-     </script>
- </body>
- 
- </html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sistema web de inventario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-1/5 bg-white shadow-md">
+            <div class="p-4 text-center">
+                <h1 class="text-xl font-bold text-blue-900">Almacén</h1>
+            </div>
+            <nav class="mt-4">
+                <ul>
+                    <li class="flex items-center px-4 py-2 bg-gray-200">
+                        <i class="fas fa-box text-blue-900 mr-2"></i>
+                        <span class="text-gray-700" onclick=(cambiarParametrom("c"))>Inventario</span>
+                    </li>
+                    <li class="flex items-center px-4 py-2">
+                        <i class="fas fa-list text-gray-500 mr-2"></i>
+                        <span class="text-gray-500">Categoría</span>
+                    </li>
+                    <li class="flex items-center px-4 py-2">
+                        <i class="fas fa-hand-holding text-gray-500 mr-2"></i>
+                        <span class="text-gray-500">Préstamos</span>
+                    </li>
+                    <li class="flex items-center px-4 py-2">
+                        <i class="fas fa-user text-gray-500 mr-2"></i>
+                        <span class="text-gray-500" onclick=(cambiarParametrom("p"))>Perfil</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="absolute bottom-4 w-full">
+                <button class="flex items-center px-4 py-2 w-full text-gray-500">
+                    <i class="fas fa-sign-out-alt text-gray-500 mr-2"></i>
+                    <span onclick="ser()">Cerrar sesión</span>
+                </button>
+            </div>
+        </div>
+        <!-- Contenido Principal -->
+        <div class="flex-1 p-6">
+            <h1 class="text-2xl font-bold text-gray-800">Sistema web de inventario</h1>
+            <div class="mt-4">
+                <div class="relative">
+                    <input id="buscador" class="w-full max-w-md px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buscar productos..." type="text"/>
+                    <i class="fas fa-search absolute top-3 right-4 text-gray-500"></i>
+                </div>
+            </div>
+            <!-- Resultados de la búsqueda -->
+            <div id="resultado" class="mt-6"></div>
+
+            <div class="grid grid-cols-2 gap-6 mt-6">
+                <!-- Bajo en stock -->
+                <div>
+                    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
+                        <i class="fas fa-th mr-2"></i>
+                        <span>Bajo en stock</span>
+                    </div>
+                    <div class="bg-white shadow-md rounded-b-md p-4">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="border-b py-2 text-gray-700">Nombre</th>
+                                    <th class="border-b py-2 text-gray-700">Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border-b py-2 text-gray-600">Cable RJ-45</td>
+                                    <td class="border-b py-2 text-gray-600">3</td>
+                                </tr>
+                                <tr>
+                                    <td class="border-b py-2 text-gray-600">Leds</td>
+                                    <td class="border-b py-2 text-gray-600">7</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-600">Arduino</td>
+                                    <td class="py-2 text-gray-600">2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Añadidos recientemente -->
+                <div>
+                    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
+                        <i class="fas fa-th mr-2"></i>
+                        <span>Añadidos recientemente</span>
+                    </div>
+                    <div class="bg-white shadow-md rounded-b-md p-4">
+                        <div class="flex items-center">
+                            <img alt="Imagen de una tarjeta Arduino Uno" class="w-16 h-16 mr-4" src="https://placehold.co/64x64"/>
+                            <div>
+                                <p class="text-gray-700">Tarjeta Arduino Uno</p>
+                                <button class="text-blue-500 text-sm">Detalles</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cambiarParametrom(nuevoValor) {
+            let url = new URL(window.location.href);
+            url.searchParams.set("m", nuevoValor);
+            window.location.href = url.toString();
+        }
+
+        function ser() {
+            fetch("php/salir.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Token": "123456"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "completo") {
+                    window.location.href = "../index.php?m=p";
+                } else {
+                    alert(data.message || "Error desconocido");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error en la solicitud");
+            });
+        }
+
+        document.getElementById("buscador").addEventListener("keyup", function() {
+            let query = this.value;
+            
+            fetch("buscar.php?q=" + query)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("resultado").innerHTML = data;
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+
+</body>
+</html>';
+?>
