@@ -123,54 +123,45 @@ echo '<html lang="en"><head>
  <body class="bg-gray-100 font-sans">
   <div class="flex h-screen">
    <!-- Sidebar -->
-   <div class="w-64 bg-gray-200 p-4">
-    <div class="flex items-center mb-8">
-     <i class="fas fa-warehouse text-2xl text-blue-800">
-     </i>
-     <span class="ml-2 text-xl font-semibold text-gray-700">
-      Almacen
-     </span>
+   <!-- Sidebar -->
+<div class="w-1/5 bg-white shadow-md relative">
+    <div class="p-4 flex items-center justify-center">
+        <i class="fas fa-warehouse" style="color: #012b4b; font-size: 32px; margin-right: 8px;"></i>
+        <h1 style="color: #012b4b; font-size: 1.25rem; font-weight: bold;">Almacén</h1>
     </div>
-    <nav class="space-y-4">
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-boxes text-lg">
-      </i>
-      <span class="ml-2" onclick=(cambiarParametrom("c"))>
-       Inventario
-      </span>
-     </a>
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-tags text-lg">
-      </i>
-      <span class="ml-2">
-       Categoria
-      </span>
-     </a>
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-hand-holding-usd text-lg">
-      </i>
-      <span class="ml-2">
-       Prestamos
-      </span>
-     </a>
-     <a class="flex items-center bg-gray-300 text-gray-700 rounded-lg p-2">
-      <i class="fas fa-user text-lg">
-      </i>
-      <span class="ml-2" onclick=(cambiarParametrom("p"))>
-       Perfil
-      </span>
-     </a>
+    <nav class="mt-4">
+        <ul>
+            <li class="flex items-center px-4 py-2 bg-gray-200 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <i class="fas fa-boxes text-[#012b4b] w-5 h-5 mr-2"></i>
+                <span class="text-gray-700 font-medium hover:text-blue-900" onclick=(cambiarParametrom("c"))>Inventario</span>
+            </li>
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <i class="fas fa-tags text-[#012b4b] w-5 h-5 mr-2"></i>
+                <span class="text-gray-500 hover:text-blue-900">Categoría</span>
+            </li>
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <i class="fas fa-handshake text-[#012b4b] w-5 h-5 mr-2"></i>
+                <span class="text-gray-500 hover:text-blue-900">Préstamos</span>
+            </li>
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <i class="fas fa-user text-[#012b4b] w-5 h-5 mr-2"></i>
+                <span class="text-gray-500 hover:text-blue-900" onclick=(cambiarParametrom("p"))>Perfil</span>
+            </li>
+            <!-- Reportes agregado -->
+            <li class="flex items-center px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-100">
+                <i class="fas fa-file-alt text-[#012b4b] w-5 h-5 mr-2"></i>
+                <span class="text-gray-500 hover:text-blue-900">Reportes</span>
+            </li>
+        </ul>
     </nav>
-    <div class="mt-auto">
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-sign-out-alt text-lg">
-      </i>
-      <span class="ml-2" onclick="ser()">
-       Cerrar sesion
-      </span>
-     </a>
+    <div class="absolute bottom-4 left-0 w-full">
+        <button class="flex items-center px-4 py-2 w-full text-gray-500 rounded-lg transition-all duration-300 hover:bg-blue-100">
+            <i class="fas fa-sign-out-alt text-[#012b4b] w-5 h-5 mr-2"></i>
+            <span onclick="ser()">Cerrar sesión</span>
+        </button>
     </div>
-   </div>
+</div>
+
    <!-- Main Content -->
    <div class="flex-1">
     <div class="bg-blue-800 text-white p-4">
