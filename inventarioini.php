@@ -190,7 +190,7 @@ fetch("php/buscar.php")
             const busqueda = termino.toLowerCase();
 
             filas.forEach(fila => {
-                const textoFila = fila.cells[0].textContent.toLowerCase();
+                const textoFila = fila.cells[1].textContent.toLowerCase();
                 fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
             });
         }
