@@ -48,6 +48,11 @@
                 <div class="relative">
                     <input id="buscador" class="w-full max-w-md px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buscar productos..." type="text"/>
                     <i class="fas fa-search absolute top-3 right-4 text-gray-500"></i>
+
+                    <table id="tablaxd">
+
+                    </table>
+                    
                 </div>
             </div>
             <!-- Resultados de la búsqueda -->
@@ -61,7 +66,7 @@
                         <span>Bajo en stock</span>
                     </div>
                     <div class="bg-white shadow-md rounded-b-md p-4">
-                        <table id="tablaxd" class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr>
                                     <th class="border-b py-2 text-gray-700">Nombre</th>
