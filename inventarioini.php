@@ -61,7 +61,7 @@
                         <span>Bajo en stock</span>
                     </div>
                     <div class="bg-white shadow-md rounded-b-md p-4">
-                        <table class="w-full text-left border-collapse">
+                        <table id="tablaxd" class="w-full text-left border-collapse">
                             <thead>
                                 <tr>
                                     <th class="border-b py-2 text-gray-700">Nombre</th>
@@ -144,6 +144,21 @@
             })
             .catch(error => console.error("Error:", error));
         });
+
+        function buscarDisponibles(termino) {
+            const filas = document.querySelectorAll('#tablaxd tr');
+            buscarEnTabla(filas, termino);
+        }
+
+        function buscarEnTabla(filas, termino) {
+            const busqueda = termino.toLowerCase();
+
+            filas.forEach(fila => {
+                const textoFila = fila.cells[0].textContent.toLowerCase();
+                fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
+            });
+        }
+        
     </script>
 
 </body>
