@@ -139,6 +139,15 @@ echo '<html lang="en"><head>
        Inventario
       </span>
      </a>
+
+     <a class="flex items-center text-gray-700 hover:text-blue-800">
+      <i class="fas fa-boxes text-lg">
+      </i>
+      <span class="ml-2" onclick=(cambiarParametrom("c"))>
+       Producto
+      </span>
+     </a>
+     
      <a class="flex items-center text-gray-700 hover:text-blue-800">
       <i class="fas fa-tags text-lg">
       </i>
