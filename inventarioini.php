@@ -50,6 +50,10 @@
                         <i class="fas fa-box text-blue-900 mr-2"></i>
                         <span class="text-gray-700" onclick=(cambiarParametrom("c"))>Inventario</span>
                     </li>
+                    <li class="flex items-center px-4 py-2 bg-gray-200">
+                        <i class="fas fa-box text-blue-900 mr-2"></i>
+                        <span class="text-gray-700" onclick=(cambiarParametrom("a"))>Producto</span>
+                    </li>
                     <li class="flex items-center px-4 py-2">
                         <i class="fas fa-list text-gray-500 mr-2"></i>
                         <span class="text-gray-500">Categoría</span>
