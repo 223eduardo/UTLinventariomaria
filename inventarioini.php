@@ -6,6 +6,36 @@
     <title>Sistema web de inventario</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+
+    <style>
+        #tablaxd {
+    width: 100%; /* Ancho completo */
+    border-collapse: collapse; /* Elimina el espacio entre celdas */
+    font-family: Arial, sans-serif; /* Fuente */
+    margin: 20px 0; /* Margen exterior */
+}
+
+#tablaxd th, #tablaxd td {
+    border: 1px solid #ddd; /* Borde de celdas */
+    padding: 12px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto */
+}
+
+#tablaxd th {
+    background-color: #4CAF50; /* Color de fondo para encabezados */
+    color: white; /* Color del texto */
+    font-weight: bold; /* Texto en negrita */
+}
+
+#tablaxd tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color de fondo para filas pares */
+}
+
+#tablaxd tr:hover {
+    background-color: #ddd; /* Color de fondo al pasar el mouse */
+}
+    </style>
+    
 </head>
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
