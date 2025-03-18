@@ -182,10 +182,10 @@ echo '<html lang="en"><head>
     <div class="p-8">
      <div class="bg-white rounded-lg shadow-lg p-6">
       <div class="flex items-center mb-6">
-       <img alt="Profile picture of McClovin" class="w-24 h-24 rounded-full" src="https://i.pinimg.com/736x/8b/ff/4a/8bff4a7645a1a2f322e0add49180cef8.jpg">
+       <img alt="Foto De Perfil" class="w-24 h-24 rounded-full" src="https://i.pinimg.com/736x/8b/ff/4a/8bff4a7645a1a2f322e0add49180cef8.jpg">
        <div class="ml-4">
         <h2 class="text-xl font-semibold text-gray-700">
-         McClovin
+         Usuario
         </h2>
         <p class="text-gray-500">
          Administrador
