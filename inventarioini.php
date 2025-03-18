@@ -136,13 +136,8 @@
 
         document.getElementById("buscador").addEventListener("keyup", function() {
             let query = this.value;
-            
-            fetch("php/buscar.php?q=" + query)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("resultado").innerHTML = data;
-            })
-            .catch(error => console.error("Error:", error));
+            const filas = document.querySelectorAll('#tablaxd tr');
+            buscarEnTabla(filas, query);
         });
 
         function buscarDisponibles(termino) {
