@@ -106,6 +106,42 @@
     </div>
 
     <script>
+
+fetch("php/buscar.php")
+    .then(response => response.json()) // Convertir la respuesta a JSON
+    .then(data => {
+        // Obtener la tabla por su ID
+        const tabla = document.getElementById("tablaxd");
+
+        // Limpiar la tabla antes de agregar nuevos datos (opcional)
+        tabla.innerHTML = "";
+
+        // Crear la fila de encabezados (si no existe)
+        if (tabla.rows.length === 0) {
+            const headerRow = tabla.insertRow();
+            const headers = ["ID", "Tipo de Producto", "Nombre", "Estado", "Persona Asignada", "Número de Serie", "Estante"];
+            headers.forEach(headerText => {
+                const header = document.createElement("th");
+                header.textContent = headerText;
+                headerRow.appendChild(header);
+            });
+        }
+
+        // Recorrer los datos y agregar filas a la tabla
+        data.forEach(item => {
+            const row = tabla.insertRow();
+            row.insertCell().textContent = item.id;
+            row.insertCell().textContent = item.tipo_producto;
+            row.insertCell().textContent = item.nombre;
+            row.insertCell().textContent = item.estado;
+            row.insertCell().textContent = item.persona_asignada;
+            row.insertCell().textContent = item.numero_de_serie;
+            row.insertCell().textContent = item.estante;
+        });
+    })
+    .catch(error => console.error("Error:", error));
+
+        
         function cambiarParametrom(nuevoValor) {
             let url = new URL(window.location.href);
             url.searchParams.set("m", nuevoValor);
