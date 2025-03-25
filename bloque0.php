@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Contraseña</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-section {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .welcome-section {
+            flex: 1;
+            background-color: #003f7a;
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="password"] {  /* Changed to password type */
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+
+        button {
+            background-color: #003f7a;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #002f5a;
+        }
+
+
+        .welcome-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            font-size: 1.1em;
+        }
+
+        button::before {
+            content: '>'; /* Replace with actual icon if needed */
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="login-section">
+            <h1>Cambio de Contraseña</h1>
+            <form>
+
+                <label for="current_password">Contraseña Actual</label>
+                <input type="password" id="current_password" name="current_password" placeholder="Ingrese su contraseña actual" required>
+
+                <label for="new_password">Nueva Contraseña</label>
+                <input type="password" id="new_password" name="new_password" placeholder="Ingrese su nueva contraseña" required>
+
+                <label for="confirm_password">Confirmar Nueva Contraseña</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirme su nueva contraseña" required>
+
+
+                <button type="submit">Cambiar Contraseña</button>
+
+
+            </form>
+        </div>
+
+        <div class="welcome-section">
+            <h2>Cambie su Contraseña</h2>
+        </div>
+    </div>
+
+</body>
+</html>
