@@ -50,8 +50,8 @@
        Prestamos
       </span>
      </a>
-     <a class="flex items-center bg-gray-300 text-gray-700 rounded-lg p-2">
-      <i class="fas fa-user text-lg">
+     <a class="flex items-center text-gray-700 hover:text-blue-800">
+      <i class="fas fa-hand-holding-usd text-lg">
       </i>
       <span class="ml-2" onclick=(cambiarParametrom("p"))>
        Perfil
