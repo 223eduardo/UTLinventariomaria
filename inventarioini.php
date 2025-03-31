@@ -9,35 +9,119 @@
 
     <style>
         #tablaxd {
-    width: 100%; /* Ancho completo */
-    border-collapse: collapse; /* Elimina el espacio entre celdas */
-    font-family: Arial, sans-serif; /* Fuente */
-    margin: 20px 0; /* Margen exterior */
-}
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+        }
 
-#tablaxd th, #tablaxd td {
-    border: 1px solid #ddd; /* Borde de celdas */
-    padding: 12px; /* Espaciado interno */
-    text-align: left; /* Alineación del texto */
-}
+        #tablaxd th, #tablaxd td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            cursor: pointer;
+        }
 
-#tablaxd th {
-    background-color: #4CAF50; /* Color de fondo para encabezados */
-    color: white; /* Color del texto */
-    font-weight: bold; /* Texto en negrita */
-}
+        #tablaxd th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
 
-#tablaxd tr:nth-child(even) {
-    background-color: #f2f2f2; /* Color de fondo para filas pares */
-}
+        #tablaxd tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-#tablaxd tr:hover {
-    background-color: #ddd; /* Color de fondo al pasar el mouse */
-}
+        #tablaxd tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .modal-footer {
+            padding: 15px 0;
+            text-align: right;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #e7e7e7;
+            color: black;
+            border: none;
+        }
     </style>
-    
 </head>
 <body class="bg-gray-100 font-sans">
+    <!-- Modal para mostrar detalles del producto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-xl font-bold mb-4">Detalles del Producto</h2>
+            <div id="modalContent">
+                <!-- Contenido dinámico se cargará aquí -->
+            </div>
+            <div class="modal-footer">
+                <button id="updateBtn" class="btn btn-primary">Actualizar</button>
+                <button id="deleteBtn" class="btn btn-danger">Eliminar</button>
+                <button id="closeBtn" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <div class="flex h-screen">
         <div class="flex-1 p-6">
             <h1 class="text-2xl font-bold text-gray-800">Sistema web de inventario</h1>
@@ -46,10 +130,7 @@
                     <input id="buscador" class="w-full max-w-md px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buscar productos..." type="text"/>
                     <i class="fas fa-search absolute top-3 right-4 text-gray-500"></i>
 
-                    <table id="tablaxd">
-
-                    </table>
-                    
+                    <table id="tablaxd"></table>
                 </div>
             </div>
             <!-- Resultados de la búsqueda -->
@@ -108,41 +189,155 @@
     </div>
 
     <script>
+        // Variable para almacenar el producto seleccionado
+        let selectedProduct = null;
 
-fetch("php/buscar.php")
-    .then(response => response.json()) // Convertir la respuesta a JSON
-    .then(data => {
-        // Obtener la tabla por su ID
-        const tabla = document.getElementById("tablaxd");
+        // Cargar datos de la tabla al iniciar
+        fetch("php/buscar.php")
+            .then(response => response.json())
+            .then(data => {
+                const tabla = document.getElementById("tablaxd");
+                tabla.innerHTML = "";
 
-        // Limpiar la tabla antes de agregar nuevos datos (opcional)
-        tabla.innerHTML = "";
+                // Crear encabezados
+                if (tabla.rows.length === 0) {
+                    const headerRow = tabla.insertRow();
+                    const headers = ["ID", "Tipo de Producto", "Nombre", "Estado", "Persona Asignada", "Número de Serie", "Estante"];
+                    headers.forEach(headerText => {
+                        const header = document.createElement("th");
+                        header.textContent = headerText;
+                        headerRow.appendChild(header);
+                    });
+                }
 
-        // Crear la fila de encabezados (si no existe)
-        if (tabla.rows.length === 0) {
-            const headerRow = tabla.insertRow();
-            const headers = ["ID", "Tipo de Producto", "Nombre", "Estado", "Persona Asignada", "Número de Serie", "Estante"];
-            headers.forEach(headerText => {
-                const header = document.createElement("th");
-                header.textContent = headerText;
-                headerRow.appendChild(header);
-            });
+                // Agregar filas con datos
+                data.forEach(item => {
+                    const row = tabla.insertRow();
+                    row.insertCell().textContent = item.id;
+                    row.insertCell().textContent = item.tipo_producto;
+                    row.insertCell().textContent = item.nombre;
+                    row.insertCell().textContent = item.estado;
+                    row.insertCell().textContent = item.persona_asignada;
+                    row.insertCell().textContent = item.numero_de_serie;
+                    row.insertCell().textContent = item.estante;
+                    
+                    // Almacenar datos completos del producto en la fila
+                    row.dataset.product = JSON.stringify(item);
+                    
+                    // Agregar evento click a la fila
+                    row.addEventListener('click', function() {
+                        selectedProduct = JSON.parse(this.dataset.product);
+                        showProductModal(selectedProduct);
+                    });
+                });
+            })
+            .catch(error => console.error("Error:", error));
+
+        // Mostrar modal con detalles del producto
+        function showProductModal(product) {
+            const modal = document.getElementById("productModal");
+            const modalContent = document.getElementById("modalContent");
+            
+            // Crear HTML con los detalles del producto
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p><strong>ID:</strong> ${product.id}</p>
+                        <p><strong>Tipo de Producto:</strong> ${product.tipo_producto}</p>
+                        <p><strong>Nombre:</strong> ${product.nombre}</p>
+                        <p><strong>Estado:</strong> ${product.estado}</p>
+                    </div>
+                    <div>
+                        <p><strong>Persona Asignada:</strong> ${product.persona_asignada}</p>
+                        <p><strong>Número de Serie:</strong> ${product.numero_de_serie}</p>
+                        <p><strong>Estante:</strong> ${product.estante}</p>
+                        <p><strong>Fecha de Registro:</strong> ${product.fecha_registro || 'N/A'}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p><strong>Descripción:</strong></p>
+                    <p>${product.descripcion || 'No hay descripción disponible.'}</p>
+                </div>
+            `;
+            
+            modal.style.display = "block";
         }
 
-        // Recorrer los datos y agregar filas a la tabla
-        data.forEach(item => {
-            const row = tabla.insertRow();
-            row.insertCell().textContent = item.id;
-            row.insertCell().textContent = item.tipo_producto;
-            row.insertCell().textContent = item.nombre;
-            row.insertCell().textContent = item.estado;
-            row.insertCell().textContent = item.persona_asignada;
-            row.insertCell().textContent = item.numero_de_serie;
-            row.insertCell().textContent = item.estante;
+        // Cerrar modal al hacer clic en la X
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('productModal').style.display = 'none';
         });
-    })
-    .catch(error => console.error("Error:", error));
 
+        // Cerrar modal al hacer clic en el botón Cerrar
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            document.getElementById('productModal').style.display = 'none';
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Función para eliminar producto
+        document.getElementById('deleteBtn').addEventListener('click', function() {
+            if (!selectedProduct) return;
+            
+            if (confirm(`¿Estás seguro de que deseas eliminar el producto "${selectedProduct.nombre}"?`)) {
+                fetch("php/eliminar_producto.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ id: selectedProduct.id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Producto eliminado correctamente");
+                        // Recargar la tabla
+                        window.location.reload();
+                    } else {
+                        alert("Error al eliminar el producto: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Error en la solicitud");
+                });
+            }
+        });
+
+        // Función para actualizar producto (aquí podrías abrir otro modal con un formulario)
+        document.getElementById('updateBtn').addEventListener('click', function() {
+            if (!selectedProduct) return;
+            
+            // Aquí podrías implementar la lógica para actualizar
+            // Por ahora solo mostramos un mensaje
+            alert(`Actualizar producto ${selectedProduct.id} - ${selectedProduct.nombre}`);
+            // En una implementación real, abrirías un formulario de edición
+        });
+
+        // Función de búsqueda
+        document.getElementById("buscador").addEventListener("keyup", function() {
+            let query = this.value;
+            const filas = document.querySelectorAll('#tablaxd tr');
+            buscarEnTabla(filas, query);
+        });
+
+        function buscarEnTabla(filas, termino) {
+            const busqueda = termino.toLowerCase();
+
+            filas.forEach((fila, index) => {
+                // Saltar la fila de encabezados
+                if (index === 0) return;
+                
+                const textoFila = fila.textContent.toLowerCase();
+                fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
+            });
+        }
         
         function cambiarParametrom(nuevoValor) {
             let url = new URL(window.location.href);
@@ -171,28 +366,6 @@ fetch("php/buscar.php")
                 alert("Error en la solicitud");
             });
         }
-
-        document.getElementById("buscador").addEventListener("keyup", function() {
-            let query = this.value;
-            const filas = document.querySelectorAll('#tablaxd tr');
-            buscarEnTabla(filas, query);
-        });
-
-        function buscarDisponibles(termino) {
-            const filas = document.querySelectorAll('#tablaxd tr');
-            buscarEnTabla(filas, termino);
-        }
-
-        function buscarEnTabla(filas, termino) {
-            const busqueda = termino.toLowerCase();
-
-            filas.forEach(fila => {
-                const textoFila = fila.cells[1].textContent.toLowerCase();
-                fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
-            });
-        }
-        
     </script>
-
 </body>
-</html>';
+</html>
