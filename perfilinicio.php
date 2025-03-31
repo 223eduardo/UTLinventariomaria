@@ -121,7 +121,7 @@ echo '<html lang="en"><head>
 }
 </style></head>
  <body class="bg-gray-100 font-sans">
-  <div class="flex h-screen">
+  <div class="flex h-screen" style="width: 100%;>
    <!-- Sidebar -->
 
    <!-- Main Content -->
