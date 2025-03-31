@@ -123,63 +123,6 @@ echo '<html lang="en"><head>
  <body class="bg-gray-100 font-sans">
   <div class="flex h-screen">
    <!-- Sidebar -->
-   <div class="w-64 bg-gray-200 p-4">
-    <div class="flex items-center mb-8">
-     <i class="fas fa-warehouse text-2xl text-blue-800">
-     </i>
-     <span class="ml-2 text-xl font-semibold text-gray-700">
-      Almacen
-     </span>
-    </div>
-    <nav class="space-y-4">
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-boxes text-lg">
-      </i>
-      <span class="ml-2" onclick=(cambiarParametrom("c"))>
-       Inventario
-      </span>
-     </a>
-
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-boxes text-lg">
-      </i>
-      <span class="ml-2" onclick=(cambiarParametrom("c"))>
-       Producto
-      </span>
-     </a>
-     
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-tags text-lg">
-      </i>
-      <span class="ml-2">
-       Categoria
-      </span>
-     </a>
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-hand-holding-usd text-lg">
-      </i>
-      <span class="ml-2">
-       Prestamos
-      </span>
-     </a>
-     <a class="flex items-center bg-gray-300 text-gray-700 rounded-lg p-2">
-      <i class="fas fa-user text-lg">
-      </i>
-      <span class="ml-2" onclick=(cambiarParametrom("p"))>
-       Perfil
-      </span>
-     </a>
-    </nav>
-    <div class="mt-auto">
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-sign-out-alt text-lg">
-      </i>
-      <span class="ml-2" onclick="ser()">
-       Cerrar sesion
-      </span>
-     </a>
-    </div>
-   </div>
 
    <!-- Main Content -->
    <div class="flex-1">
