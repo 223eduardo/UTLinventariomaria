@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Almacén</title>
+    <title>Agregar Producto - Almacén</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -13,21 +12,8 @@
             display: flex;
             background-color: #f8f8f8;
             margin: 0;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #e3e6eb;
-            padding: 20px;
+            padding: 0;
             height: 100vh;
-        }
-
-        .sidebar h2 {
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-            font-weight: 500;
         }
 
         .content {
@@ -46,21 +32,15 @@
             color: #333;
         }
 
-        .product-details label,
         .add-product label {
             display: block;
             font-weight: 500;
             margin-top: 10px;
-
         }
 
-        .product-details span,
-        .product-details input[type="text"],
-        .product-details input[type="number"],
-        .product-details input[type="file"],
         .add-product input[type="text"],
         .add-product input[type="number"],
-        .add-product input[type="file"] {
+        .add-product select {
             display: block;
             width: calc(100% - 20px);
             padding: 8px;
@@ -91,155 +71,85 @@
         .buttons button:hover {
             opacity: 0.9;
         }
-
-        .edit,
-        .delete,
-        .borrow,
-        .return,
-        .save,
-        .cancel,
-        .add {
-            background-color: #12263a;
-            color: white;
-        }
-
-        .add-product {
-            display: none;
-        }
-
-        .product-image {
-            margin: 20px auto;
-            max-width: 200px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
-
 <body>
     <div class="content">
-        <div class="header">Productos</div>
-        
-        <!-- View Mode -->
-        <div class="product-details" id="view-mode">
-            <label>Nombre:</label>
-            <span id="name-text"></span>
-            <label>Cantidad:</label>
-            <span id="quantity-text"></span>
-            <label>Detalles:</label>
-            <span id="details-text"></span>
-            <label>Estado:</label>
-            <span id="status-text"></span>
-            <img class="product-image" id="product-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/LED_5mm_red.png/600px-LED_5mm_red.png" alt="Led">
-            <div class="buttons">
-                <button class="delete"><i class="fas fa-trash"></i> Eliminar</button>
-                <button class="edit" onclick="switchToEditMode()"><i class="fas fa-edit"></i> Editar</button>
-                <button class="borrow">Prestar</button>
-                <button class="return">Reintegrar</button>
-                <button class="add" onclick="switchToAddMode()"><i class="fas fa-plus"></i> Agregar Producto</button>
-            </div>
-        </div>
-        
-        <!-- Edit Mode -->
-        <div class="product-details" id="edit-mode" style="display:none;">
-            <label>Nombre:</label>
-            <input type="text" id="name-input" value="Led">
-            <label>Cantidad:</label>
-            <input type="number" id="quantity-input" value="30">
-            <label>Detalles:</label>
-            <input type="text" id="details-input" value="LED 5 mm para encender en Arduino">
-            <label>Imagen:</label>
-            <input type="file" id="image-input" accept="image/*">
-            <div class="buttons">
-                <button class="save" onclick="saveChanges()"><i class="fas fa-save"></i> Guardar</button>
-                <button class="cancel" onclick="switchToViewMode()"><i class="fas fa-times"></i> Cancelar</button>
-            </div>
-        </div>
-
-        <!-- Add Product Mode -->
+        <div class="header">Agregar Nuevo Producto</div>
         <div class="add-product" id="add-product">
             <label>Nombre:</label>
-            <input type="text" id="new-name-input">
-            <label>Cantidad:</label>
-            <input type="number" id="new-quantity-input">
-            <label>Detalles:</label>
-            <input type="text" id="new-details-input">
-            <label>Imagen:</label>
-            <input type="file" id="new-image-input" accept="image/*">
-            <div class="buttons">
-                <button class="add" onclick="addProduct()"><i class="fas fa-plus"></i> Agregar</button>
-                <button class="cancel" onclick="switchToViewMode()"><i class="fas fa-times"></i> Cancelar</button>
+            <input type="text" id="nombre" name="nombre">
+
+            <label>Tipo de Producto:</label>
+            <input type="text" id="tipo_producto" name="tipo_producto">
+
+            <label>Estado:</label>
+            <select id="estado" name="estado">
+                <option value="Disponible">Disponible</option>
+                <option value="No Disponible">No Disponible</option>
+                <option value="En Prestamo">En Préstamo</option>
+            </select>
+
+            <label>Persona Asignada:</label>
+            <input type="text" id="persona_asignada" name="persona_asignada">
+
+            <label>Número de Serie:</label>
+            <input type="text" id="numero_de_serie" name="numero_de_serie">
+
+            <label>Estante:</label>
+            <input type="text" id="estante" name="estante">
+
+            <label>ID (para actualizar):</label>
+            <input type="number" id="id" name="id">
+             <div class="buttons">
+                <button class="add" onclick="updateProduct()"><i class="fas fa-plus"></i> Actualizar Producto</button>
             </div>
         </div>
     </div>
-
     <script>
-        function switchToEditMode() {
-            document.getElementById('view-mode').style.display = 'none';
-            document.getElementById('edit-mode').style.display = 'block';
-        }
-        function switchToViewMode() {
-            document.getElementById('view-mode').style.display = 'block';
-            document.getElementById('edit-mode').style.display = 'none';
-            document.getElementById('add-product').style.display = 'none';
-        }
-        function switchToAddMode() {
-            document.getElementById('view-mode').style.display = 'none';
-            document.getElementById('add-product').style.display = 'block';
-        }
-        
-        function saveChanges() {
-            document.getElementById('name-text').textContent = document.getElementById('name-input').value;
-            document.getElementById('quantity-text').textContent = document.getElementById('quantity-input').value;
-            document.getElementById('details-text').textContent = document.getElementById('details-input').value;
-            switchToViewMode();
-        }
+        async function updateProduct() {
+            const productId = document.getElementById('id').value;
+            const nombre = document.getElementById('nombre').value;
+            const tipo_producto = document.getElementById('tipo_producto').value;
+            const estado = document.getElementById('estado').value;
+            const persona_asignada = document.getElementById('persona_asignada').value;
+            const numero_de_serie = document.getElementById('numero_de_serie').value;
+            const estante = document.getElementById('estante').value;
 
-        function addProduct() {
-            const newName = document.getElementById('new-name-input').value;
-            const newQuantity = document.getElementById('new-quantity-input').value;
-            const newDetails = document.getElementById('new-details-input').value;
-
-            document.getElementById('name-text').textContent = newName;
-            document.getElementById('quantity-text').textContent = newQuantity;
-            document.getElementById('details-text').textContent = newDetails;
-
-            // Here you can handle the image preview as needed.
-            const file = document.getElementById('new-image-input').files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('product-image').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
+           if (!productId) {
+                alert('Por favor, ingrese el ID del producto que desea actualizar.');
+                return;
             }
+              const data = {
+                  id: productId,
+                  nombre: nombre,
+                  tipo_producto: tipo_producto,
+                  estado: estado,
+                  persona_asignada: persona_asignada,
+                  numero_de_serie: numero_de_serie,
+                  estante: estante
+              };
 
-            switchToViewMode();
+               try {
+                  const response = await fetch('update_product.php', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(data)
+                  });
+                    const result = await response.json();
+
+                  if (result.success) {
+                      alert(result.message);
+                  } else {
+                      alert(result.message);
+                  }
+              } catch (error) {
+                  console.error('Error:', error);
+                  alert('Ocurrió un error al actualizar el producto.');
+              }
         }
-
-        // Function to show the uploaded image
-        document.getElementById('image-input').addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('product-image').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        document.getElementById('new-image-input').addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    // Optionally show a preview of the new image
-                }
-                reader.readAsDataURL(file);
-            }
-        });
     </script>
 </body>
-
 </html>
