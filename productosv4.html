@@ -23,6 +23,7 @@
             margin: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
 
         .header {
@@ -40,7 +41,8 @@
 
         .add-product input[type="text"],
         .add-product input[type="number"],
-        .add-product select {
+        .add-product select,
+        .add-product textarea {
             display: block;
             width: calc(100% - 20px);
             padding: 8px;
@@ -49,6 +51,11 @@
             border: 1px solid #ccc;
             box-sizing: border-box;
             font-size: 16px;
+        }
+
+        .add-product textarea {
+            min-height: 80px;
+            resize: vertical;
         }
 
         .buttons {
@@ -72,55 +79,260 @@
             opacity: 0.9;
         }
 
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 25px 0 15px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #12263a;
+        }
+
+        .piece-form {
+            background-color: #f0f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .piece-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .piece-actions button {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        #piecesTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        #piecesTable th, #piecesTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #piecesTable th {
+            background-color: #12263a;
+            color: white;
+        }
+
+        #piecesTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="content">
         <div class="header">Agregar Nuevo Producto</div>
         <div class="add-product" id="add-product">
-            <label>Nombre:</label>
-            <input type="text" id="nombre" name="nombre">
+            <form id="productForm">
+                <div class="grid-container">
+                    <div>
+                        <label>Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
 
-            <label>Tipo de Producto:</label>
-            <input type="text" id="tipo_producto" name="tipo_producto">
+                        <label>Tipo de Producto:</label>
+                        <input type="text" id="tipo_producto" name="tipo_producto" required>
 
-            <label>Estado:</label>
-            <select id="estado" name="estado">
-                <option value="Disponible">Disponible</option>
-                <option value="No Disponible">No Disponible</option>
-                <option value="En Prestamo">En Préstamo</option>
-            </select>
+                        <label>Estado:</label>
+                        <select id="estado" name="estado" required>
+                            <option value="Disponible">Disponible</option>
+                            <option value="No Disponible">No Disponible</option>
+                            <option value="En Prestamo">En Préstamo</option>
+                            <option value="Mantenimiento">Mantenimiento</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Persona Asignada:</label>
+                        <input type="text" id="persona_asignada" name="persona_asignada">
 
-            <label>Persona Asignada:</label>
-            <input type="text" id="persona_asignada" name="persona_asignada">
+                        <label>Número de Serie:</label>
+                        <input type="text" id="numero_de_serie" name="numero_de_serie">
 
-            <label>Número de Serie:</label>
-            <input type="text" id="numero_de_serie" name="numero_de_serie">
+                        <label>Estante:</label>
+                        <input type="text" id="estante" name="estante">
+                    </div>
+                </div>
 
-            <label>Estante:</label>
-            <input type="text" id="estante" name="estante">
+                <label>Descripción:</label>
+                <textarea id="descripcion" name="descripcion"></textarea>
 
-            <div class="buttons">
-                <button class="add" onclick="addProduct()"><i class="fas fa-plus"></i> Agregar Producto</button>
-            </div>
+                <div class="section-title">Piezas del Producto</div>
+                <div class="piece-form">
+                    <div class="grid-container">
+                        <div>
+                            <label>Nombre de la Pieza:</label>
+                            <input type="text" id="piece_nombre" name="piece_nombre">
+                        </div>
+                        <div>
+                            <label>Cantidad:</label>
+                            <input type="number" id="piece_cantidad" name="piece_cantidad" min="1" value="1">
+                        </div>
+                        <div>
+                            <label>Estado:</label>
+                            <select id="piece_estado" name="piece_estado">
+                                <option value="Disponible">Disponible</option>
+                                <option value="No Disponible">No Disponible</option>
+                                <option value="Dañado">Dañado</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Descripción:</label>
+                            <textarea id="piece_descripcion" name="piece_descripcion" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="piece-actions">
+                        <button type="button" onclick="addPiece()"><i class="fas fa-plus"></i> Agregar Pieza</button>
+                    </div>
+                </div>
+
+                <table id="piecesTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="piecesTableBody">
+                        <!-- Piezas se agregarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+
+                <div class="buttons">
+                    <button type="button" onclick="submitProduct()"><i class="fas fa-save"></i> Guardar Producto</button>
+                    <button type="button" onclick="clearForm()"><i class="fas fa-trash"></i> Limpiar Formulario</button>
+                </div>
+            </form>
         </div>
     </div>
+
     <script>
-        async function addProduct() {
+        // Array para almacenar las piezas temporalmente
+        let pieces = [];
+
+        // Función para agregar una pieza a la lista temporal
+        function addPiece() {
+            const nombre = document.getElementById('piece_nombre').value;
+            const cantidad = document.getElementById('piece_cantidad').value;
+            const estado = document.getElementById('piece_estado').value;
+            const descripcion = document.getElementById('piece_descripcion').value;
+
+            if (!nombre || !cantidad) {
+                alert('Nombre y cantidad son requeridos para la pieza');
+                return;
+            }
+
+            const piece = {
+                nombre,
+                cantidad,
+                estado,
+                descripcion
+            };
+
+            pieces.push(piece);
+            updatePiecesTable();
+            clearPieceForm();
+        }
+
+        // Función para actualizar la tabla de piezas
+        function updatePiecesTable() {
+            const tableBody = document.getElementById('piecesTableBody');
+            tableBody.innerHTML = '';
+
+            if (pieces.length === 0) {
+                const row = tableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 4;
+                cell.textContent = 'No hay piezas agregadas';
+                cell.style.textAlign = 'center';
+                return;
+            }
+
+            pieces.forEach((piece, index) => {
+                const row = tableBody.insertRow();
+                
+                row.insertCell().textContent = piece.nombre;
+                row.insertCell().textContent = piece.cantidad;
+                row.insertCell().textContent = piece.estado;
+                
+                const actionsCell = row.insertCell();
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn-danger';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteBtn.onclick = () => removePiece(index);
+                actionsCell.appendChild(deleteBtn);
+            });
+        }
+
+        // Función para eliminar una pieza de la lista
+        function removePiece(index) {
+            if (confirm('¿Estás seguro de eliminar esta pieza?')) {
+                pieces.splice(index, 1);
+                updatePiecesTable();
+            }
+        }
+
+        // Función para limpiar el formulario de piezas
+        function clearPieceForm() {
+            document.getElementById('piece_nombre').value = '';
+            document.getElementById('piece_cantidad').value = '1';
+            document.getElementById('piece_estado').selectedIndex = 0;
+            document.getElementById('piece_descripcion').value = '';
+        }
+
+        // Función para limpiar todo el formulario
+        function clearForm() {
+            if (confirm('¿Estás seguro de limpiar todo el formulario? Se perderán todos los datos.')) {
+                document.getElementById('productForm').reset();
+                pieces = [];
+                updatePiecesTable();
+            }
+        }
+
+        // Función para enviar el producto y sus piezas al servidor
+        async function submitProduct() {
             const nombre = document.getElementById('nombre').value;
             const tipo_producto = document.getElementById('tipo_producto').value;
             const estado = document.getElementById('estado').value;
             const persona_asignada = document.getElementById('persona_asignada').value;
             const numero_de_serie = document.getElementById('numero_de_serie').value;
             const estante = document.getElementById('estante').value;
+            const descripcion = document.getElementById('descripcion').value;
 
-            const data = {
-                nombre: nombre,
-                tipo_producto: tipo_producto,
-                estado: estado,
-                persona_asignada: persona_asignada,
-                numero_de_serie: numero_de_serie,
-                estante: estante
+            if (!nombre || !tipo_producto) {
+                alert('Nombre y tipo de producto son campos requeridos');
+                return;
+            }
+
+            const productData = {
+                nombre,
+                tipo_producto,
+                estado,
+                persona_asignada,
+                numero_de_serie,
+                estante,
+                descripcion,
+                pieces
             };
 
             try {
@@ -129,22 +341,16 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(productData)
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
                     alert(result.message);
-                    // Clear the form
-                    document.getElementById('nombre').value = '';
-                    document.getElementById('tipo_producto').value = '';
-                    document.getElementById('estado').selectedIndex = 0;
-                    document.getElementById('persona_asignada').value = '';
-                    document.getElementById('numero_de_serie').value = '';
-                    document.getElementById('estante').value = '';
+                    clearForm();
                 } else {
-                    alert(result.message);
+                    alert(result.message || 'Error al guardar el producto');
                 }
             } catch (error) {
                 console.error('Error:', error);
