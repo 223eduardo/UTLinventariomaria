@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -103,6 +103,29 @@
             color: black;
             border: none;
         }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -110,7 +133,7 @@
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2 class="text-xl font-bold mb-4">Detalles del Producto</h2>
+            <h2 class="text-xl font-bold mb-4" id="modalTitle">Detalles del Producto</h2>
             <div id="modalContent">
                 <!-- Contenido dinámico se cargará aquí -->
             </div>
@@ -191,52 +214,106 @@
     <script>
         // Variable para almacenar el producto seleccionado
         let selectedProduct = null;
+        let isEditMode = false;
 
-        // Cargar datos de la tabla al iniciar
-        fetch("php/buscar.php")
-            .then(response => response.json())
-            .then(data => {
-                const tabla = document.getElementById("tablaxd");
-                tabla.innerHTML = "";
+        // Cargar datos al iniciar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+            setupModalEvents();
+            setupSearch();
+        });
 
-                // Crear encabezados
-                if (tabla.rows.length === 0) {
-                    const headerRow = tabla.insertRow();
-                    const headers = ["ID", "Tipo de Producto", "Nombre", "Estado", "Persona Asignada", "Número de Serie", "Estante"];
-                    headers.forEach(headerText => {
-                        const header = document.createElement("th");
-                        header.textContent = headerText;
-                        headerRow.appendChild(header);
-                    });
-                }
-
-                // Agregar filas con datos
-                data.forEach(item => {
-                    const row = tabla.insertRow();
-                    row.insertCell().textContent = item.id;
-                    row.insertCell().textContent = item.tipo_producto;
-                    row.insertCell().textContent = item.nombre;
-                    row.insertCell().textContent = item.estado;
-                    row.insertCell().textContent = item.persona_asignada;
-                    row.insertCell().textContent = item.numero_de_serie;
-                    row.insertCell().textContent = item.estante;
-                    
-                    // Almacenar datos completos del producto en la fila
-                    row.dataset.product = JSON.stringify(item);
-                    
-                    // Agregar evento click a la fila
-                    row.addEventListener('click', function() {
-                        selectedProduct = JSON.parse(this.dataset.product);
-                        showProductModal(selectedProduct);
-                    });
+        // Cargar datos de la tabla
+        function loadTableData() {
+            fetch("php/buscar.php")
+                .then(response => response.json())
+                .then(data => {
+                    renderTable(data);
+                })
+                .catch(error => {
+                    console.error("Error al cargar datos:", error);
+                    alert("Error al cargar los datos de productos");
                 });
-            })
-            .catch(error => console.error("Error:", error));
+        }
 
-        // Mostrar modal con detalles del producto
-        function showProductModal(product) {
+        // Renderizar la tabla con datos
+        function renderTable(data) {
+            const tabla = document.getElementById("tablaxd");
+            tabla.innerHTML = "";
+
+            // Crear encabezados
+            const headerRow = tabla.insertRow();
+            const headers = ["ID", "Tipo de Producto", "Nombre", "Estado", "Persona Asignada", "Número de Serie", "Estante"];
+            headers.forEach(headerText => {
+                const header = document.createElement("th");
+                header.textContent = headerText;
+                headerRow.appendChild(header);
+            });
+
+            // Agregar filas con datos
+            data.forEach(item => {
+                const row = tabla.insertRow();
+                row.insertCell().textContent = item.id;
+                row.insertCell().textContent = item.tipo_producto;
+                row.insertCell().textContent = item.nombre;
+                row.insertCell().textContent = item.estado;
+                row.insertCell().textContent = item.persona_asignada;
+                row.insertCell().textContent = item.numero_de_serie;
+                row.insertCell().textContent = item.estante;
+                
+                // Almacenar datos completos del producto en la fila
+                row.dataset.product = JSON.stringify(item);
+                
+                // Agregar evento click a la fila
+                row.addEventListener('click', function() {
+                    selectedProduct = JSON.parse(this.dataset.product);
+                    showProductDetails(selectedProduct);
+                });
+            });
+        }
+
+        // Configurar eventos del modal
+        function setupModalEvents() {
             const modal = document.getElementById("productModal");
+            const closeBtn = document.querySelector(".close");
+            const closeModalBtn = document.getElementById("closeBtn");
+            const updateBtn = document.getElementById("updateBtn");
+            const deleteBtn = document.getElementById("deleteBtn");
+
+            // Cerrar modal al hacer clic en la X
+            closeBtn.addEventListener('click', closeModal);
+
+            // Cerrar modal al hacer clic en el botón Cerrar
+            closeModalBtn.addEventListener('click', closeModal);
+
+            // Cerrar modal al hacer clic fuera del contenido
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Configurar botón de actualización
+            updateBtn.addEventListener('click', function() {
+                if (isEditMode) {
+                    submitUpdateForm();
+                } else {
+                    showEditForm(selectedProduct);
+                }
+            });
+
+            // Configurar botón de eliminación
+            deleteBtn.addEventListener('click', confirmDeleteProduct);
+        }
+
+        // Mostrar detalles del producto
+        function showProductDetails(product) {
+            const modal = document.getElementById("productModal");
+            const modalTitle = document.getElementById("modalTitle");
             const modalContent = document.getElementById("modalContent");
+            
+            modalTitle.textContent = "Detalles del Producto";
+            isEditMode = false;
             
             // Crear HTML con los detalles del producto
             modalContent.innerHTML = `
@@ -260,110 +337,152 @@
                 </div>
             `;
             
+            // Configurar botones
+            document.getElementById('updateBtn').textContent = 'Actualizar';
+            document.getElementById('updateBtn').style.display = 'inline-block';
+            document.getElementById('deleteBtn').style.display = 'inline-block';
+            
             modal.style.display = "block";
         }
 
-        // Cerrar modal al hacer clic en la X
-        document.querySelector('.close').addEventListener('click', function() {
-            document.getElementById('productModal').style.display = 'none';
-        });
-
-        // Cerrar modal al hacer clic en el botón Cerrar
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            document.getElementById('productModal').style.display = 'none';
-        });
-
-        // Cerrar modal al hacer clic fuera del contenido
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('productModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // Función para eliminar producto
-        document.getElementById('deleteBtn').addEventListener('click', function() {
-            if (!selectedProduct) return;
+        // Mostrar formulario de edición
+        function showEditForm(product) {
+            const modalContent = document.getElementById("modalContent");
+            const modalTitle = document.getElementById("modalTitle");
             
-            if (confirm(`¿Estás seguro de que deseas eliminar el producto "${selectedProduct.nombre}"?`)) {
-                fetch("php/eliminar_producto.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ id: selectedProduct.id })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Producto eliminado correctamente");
-                        // Recargar la tabla
-                        window.location.reload();
-                    } else {
-                        alert("Error al eliminar el producto: " + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("Error en la solicitud");
-                });
-            }
-        });
-
-        // Función para actualizar producto (aquí podrías abrir otro modal con un formulario)
-        document.getElementById('updateBtn').addEventListener('click', function() {
-            if (!selectedProduct) return;
+            modalTitle.textContent = "Editar Producto";
+            isEditMode = true;
             
-            // Aquí podrías implementar la lógica para actualizar
-            // Por ahora solo mostramos un mensaje
-            alert(`Actualizar producto ${selectedProduct.id} - ${selectedProduct.nombre}`);
-            // En una implementación real, abrirías un formulario de edición
-        });
+            modalContent.innerHTML = `
+                <form id="editForm">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" name="nombre" value="${product.nombre}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Producto</label>
+                            <input type="text" name="tipo_producto" value="${product.tipo_producto}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select name="estado" required>
+                                <option value="Disponible" ${product.estado === 'Disponible' ? 'selected' : ''}>Disponible</option>
+                                <option value="En uso" ${product.estado === 'En uso' ? 'selected' : ''}>En uso</option>
+                                <option value="Mantenimiento" ${product.estado === 'Mantenimiento' ? 'selected' : ''}>Mantenimiento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Persona Asignada</label>
+                            <input type="text" name="persona_asignada" value="${product.persona_asignada}">
+                        </div>
+                        <div class="form-group">
+                            <label>Número de Serie</label>
+                            <input type="text" name="numero_de_serie" value="${product.numero_de_serie}">
+                        </div>
+                        <div class="form-group">
+                            <label>Estante</label>
+                            <input type="text" name="estante" value="${product.estante}">
+                        </div>
+                        <div class="form-group col-span-2">
+                            <label>Descripción</label>
+                            <textarea name="descripcion">${product.descripcion || ''}</textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="${product.id}">
+                </form>
+            `;
+            
+            // Configurar botones
+            document.getElementById('updateBtn').textContent = 'Guardar Cambios';
+        }
 
-        // Función de búsqueda
-        document.getElementById("buscador").addEventListener("keyup", function() {
-            let query = this.value;
-            const filas = document.querySelectorAll('#tablaxd tr');
-            buscarEnTabla(filas, query);
-        });
-
-        function buscarEnTabla(filas, termino) {
-            const busqueda = termino.toLowerCase();
-
-            filas.forEach((fila, index) => {
-                // Saltar la fila de encabezados
-                if (index === 0) return;
-                
-                const textoFila = fila.textContent.toLowerCase();
-                fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
+        // Enviar formulario de actualización
+        function submitUpdateForm() {
+            const form = document.getElementById('editForm');
+            const formData = new FormData(form);
+            const jsonData = {};
+            
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
             });
-        }
-        
-        function cambiarParametrom(nuevoValor) {
-            let url = new URL(window.location.href);
-            url.searchParams.set("m", nuevoValor);
-            window.location.href = url.toString();
-        }
 
-        function ser() {
-            fetch("php/salir.php", {
+            fetch("php/actualizar_producto.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Token": "123456"
-                }
+                },
+                body: JSON.stringify(jsonData)
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === "completo") {
-                    window.location.href = "../index.php?m=p";
+                if (data.success) {
+                    alert("Producto actualizado correctamente");
+                    closeModal();
+                    loadTableData();
                 } else {
-                    alert(data.message || "Error desconocido");
+                    alert("Error al actualizar: " + (data.message || 'Error desconocido'));
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert("Error en la solicitud");
+                alert("Error en la conexión");
+            });
+        }
+
+        // Confirmar eliminación de producto
+        function confirmDeleteProduct() {
+            if (!selectedProduct) return;
+            
+            if (confirm(`¿Estás seguro de que deseas eliminar el producto "${selectedProduct.nombre}"? Esta acción no se puede deshacer.`)) {
+                deleteProduct(selectedProduct.id);
+            }
+        }
+
+        // Eliminar producto
+        function deleteProduct(productId) {
+            fetch("php/eliminar_producto.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Producto eliminado correctamente");
+                    closeModal();
+                    loadTableData();
+                } else {
+                    alert("Error al eliminar: " + (data.message || 'Error desconocido'));
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error en la conexión");
+            });
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+            isEditMode = false;
+        }
+
+        // Configurar búsqueda
+        function setupSearch() {
+            document.getElementById("buscador").addEventListener("keyup", function() {
+                const query = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#tablaxd tr');
+                
+                rows.forEach((row, index) => {
+                    // Saltar la fila de encabezados
+                    if (index === 0) return;
+                    
+                    const rowText = row.textContent.toLowerCase();
+                    row.style.display = rowText.includes(query) ? '' : 'none';
+                });
             });
         }
     </script>
