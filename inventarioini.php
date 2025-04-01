@@ -135,47 +135,36 @@
             min-height: 80px;
         }
 
-        .tab-container {
-            margin-top: 20px;
-        }
-
-        .tab-buttons {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .tab-button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #f1f1f1;
-            border: none;
-            outline: none;
-        }
-
-        .tab-button.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-top: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
         .piece-actions {
             display: flex;
             gap: 5px;
         }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .piece-form {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-    <!-- Modal para mostrar detalles del producto -->
+    <!-- Modal para mostrar detalles del producto y piezas -->
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -183,77 +172,63 @@
             <div id="modalContent">
                 <!-- Contenido dinámico se cargará aquí -->
             </div>
-            <div class="tab-container">
-                <div class="tab-buttons">
-                    <button class="tab-button active" onclick="openTab(event, 'productDetails')">Detalles</button>
-                    <button class="tab-button" onclick="openTab(event, 'productPieces')">Piezas</button>
-                </div>
-                <div id="productDetails" class="tab-content active">
-                    <!-- Contenido de detalles del producto -->
-                </div>
-                <div id="productPieces" class="tab-content">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Piezas del Producto</h3>
-                        <button id="addPieceBtn" class="btn btn-info">Añadir Pieza</button>
-                    </div>
-                    <table id="piecesTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Cantidad</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="piecesTableBody">
-                            <!-- Las piezas se cargarán aquí dinámicamente -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="updateBtn" class="btn btn-primary">Actualizar</button>
-                <button id="deleteBtn" class="btn btn-danger">Eliminar</button>
-                <button id="closeBtn" class="btn btn-secondary">Cerrar</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal para añadir/editar piezas -->
-    <div id="pieceModal" class="modal">
-        <div class="modal-content" style="width: 40%;">
-            <span class="close">&times;</span>
-            <h2 class="text-xl font-bold mb-4" id="pieceModalTitle">Añadir Pieza</h2>
-            <div id="pieceModalContent">
+            <!-- Sección de piezas -->
+            <div class="section-title">Piezas del Producto</div>
+            <button id="togglePieceForm" class="btn btn-info mb-3">Mostrar Formulario de Pieza</button>
+            
+            <div id="pieceFormContainer" class="piece-form">
                 <form id="pieceForm">
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" name="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Cantidad</label>
-                        <input type="number" name="cantidad" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Estado</label>
-                        <select name="estado" required>
-                            <option value="Disponible">Disponible</option>
-                            <option value="En uso">En uso</option>
-                            <option value="Dañado">Dañado</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <textarea name="descripcion"></textarea>
+                    <div class="grid-container">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input type="number" name="cantidad" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select name="estado" required>
+                                <option value="Disponible">Disponible</option>
+                                <option value="En uso">En uso</option>
+                                <option value="Dañado">Dañado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea name="descripcion"></textarea>
+                        </div>
                     </div>
                     <input type="hidden" name="producto_id" id="pieceProductId">
                     <input type="hidden" name="pieza_id" id="pieceId">
+                    <div class="modal-footer">
+                        <button type="button" id="savePieceBtn" class="btn btn-primary">Guardar Pieza</button>
+                        <button type="button" id="cancelPieceBtn" class="btn btn-secondary">Cancelar</button>
+                    </div>
                 </form>
             </div>
+
+            <table id="piecesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="piecesTableBody">
+                    <!-- Las piezas se cargarán aquí dinámicamente -->
+                </tbody>
+            </table>
+
             <div class="modal-footer">
-                <button id="savePieceBtn" class="btn btn-primary">Guardar</button>
-                <button id="cancelPieceBtn" class="btn btn-secondary">Cancelar</button>
+                <button id="updateBtn" class="btn btn-primary">Actualizar Producto</button>
+                <button id="deleteBtn" class="btn btn-danger">Eliminar Producto</button>
+                <button id="closeBtn" class="btn btn-secondary">Cerrar</button>
             </div>
         </div>
     </div>
@@ -336,7 +311,6 @@
             loadTableData();
             setupModalEvents();
             setupSearch();
-            setupPieceModalEvents();
         });
 
         // Cargar datos de la tabla principal
@@ -388,14 +362,16 @@
             });
         }
 
-        // Configurar eventos del modal principal
+        // Configurar eventos del modal
         function setupModalEvents() {
             const modal = document.getElementById("productModal");
-            const closeBtn = document.querySelector("#productModal .close");
+            const closeBtn = document.querySelector(".close");
             const closeModalBtn = document.getElementById("closeBtn");
             const updateBtn = document.getElementById("updateBtn");
             const deleteBtn = document.getElementById("deleteBtn");
-            const addPieceBtn = document.getElementById("addPieceBtn");
+            const togglePieceFormBtn = document.getElementById("togglePieceForm");
+            const savePieceBtn = document.getElementById("savePieceBtn");
+            const cancelPieceBtn = document.getElementById("cancelPieceBtn");
 
             // Cerrar modal al hacer clic en la X
             closeBtn.addEventListener('click', closeModal);
@@ -410,7 +386,7 @@
                 }
             });
 
-            // Configurar botón de actualización
+            // Configurar botón de actualización de producto
             updateBtn.addEventListener('click', function() {
                 if (isEditMode) {
                     submitUpdateForm();
@@ -419,34 +395,30 @@
                 }
             });
 
-            // Configurar botón de eliminación
+            // Configurar botón de eliminación de producto
             deleteBtn.addEventListener('click', confirmDeleteProduct);
 
-            // Configurar botón para añadir pieza
-            addPieceBtn.addEventListener('click', showAddPieceForm);
-        }
-
-        // Configurar eventos del modal de piezas
-        function setupPieceModalEvents() {
-            const modal = document.getElementById("pieceModal");
-            const closeBtn = document.querySelector("#pieceModal .close");
-            const saveBtn = document.getElementById("savePieceBtn");
-            const cancelBtn = document.getElementById("cancelPieceBtn");
-
-            // Cerrar modal al hacer clic en la X
-            closeBtn.addEventListener('click', closePieceModal);
-
-            // Cerrar modal al hacer clic en Cancelar
-            cancelBtn.addEventListener('click', closePieceModal);
-
-            // Guardar pieza
-            saveBtn.addEventListener('click', savePiece);
-
-            // Cerrar modal al hacer clic fuera del contenido
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    closePieceModal();
+            // Configurar botón para mostrar/ocultar formulario de pieza
+            togglePieceFormBtn.addEventListener('click', function() {
+                const formContainer = document.getElementById("pieceFormContainer");
+                if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+                    formContainer.style.display = 'block';
+                    togglePieceFormBtn.textContent = 'Ocultar Formulario';
+                    resetPieceForm();
+                } else {
+                    formContainer.style.display = 'none';
+                    togglePieceFormBtn.textContent = 'Mostrar Formulario';
                 }
+            });
+
+            // Configurar botón para guardar pieza
+            savePieceBtn.addEventListener('click', savePiece);
+
+            // Configurar botón para cancelar edición de pieza
+            cancelPieceBtn.addEventListener('click', function() {
+                resetPieceForm();
+                document.getElementById("pieceFormContainer").style.display = 'none';
+                document.getElementById("togglePieceForm").textContent = 'Mostrar Formulario';
             });
         }
 
@@ -454,13 +426,13 @@
         function showProductDetails(product) {
             const modal = document.getElementById("productModal");
             const modalTitle = document.getElementById("modalTitle");
-            const productDetailsContent = document.getElementById("productDetails");
+            const modalContent = document.getElementById("modalContent");
             
             modalTitle.textContent = "Detalles del Producto";
             isEditMode = false;
             
             // Crear HTML con los detalles del producto
-            productDetailsContent.innerHTML = `
+            modalContent.innerHTML = `
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <p><strong>ID:</strong> ${product.id}</p>
@@ -482,9 +454,13 @@
             `;
             
             // Configurar botones
-            document.getElementById('updateBtn').textContent = 'Actualizar';
+            document.getElementById('updateBtn').textContent = 'Actualizar Producto';
             document.getElementById('updateBtn').style.display = 'inline-block';
             document.getElementById('deleteBtn').style.display = 'inline-block';
+            
+            // Ocultar formulario de piezas al inicio
+            document.getElementById("pieceFormContainer").style.display = 'none';
+            document.getElementById("togglePieceForm").textContent = 'Mostrar Formulario';
             
             // Cargar piezas del producto
             loadProductPieces(product.id);
@@ -553,30 +529,18 @@
             });
         }
 
-        // Mostrar formulario para añadir pieza
-        function showAddPieceForm() {
-            const modal = document.getElementById("pieceModal");
-            const modalTitle = document.getElementById("pieceModalTitle");
-            const form = document.getElementById("pieceForm");
-            
-            modalTitle.textContent = "Añadir Pieza";
-            isPieceEditMode = false;
-            
-            // Resetear formulario
-            form.reset();
-            document.getElementById("pieceId").value = "";
-            document.getElementById("pieceProductId").value = selectedProduct.id;
-            
-            modal.style.display = "block";
-        }
-
         // Mostrar formulario para editar pieza
         function showEditPieceForm(piece) {
-            const modal = document.getElementById("pieceModal");
-            const modalTitle = document.getElementById("pieceModalTitle");
+            const formContainer = document.getElementById("pieceFormContainer");
             const form = document.getElementById("pieceForm");
+            const toggleBtn = document.getElementById("togglePieceForm");
             
-            modalTitle.textContent = "Editar Pieza";
+            // Mostrar formulario si está oculto
+            if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+                formContainer.style.display = 'block';
+                toggleBtn.textContent = 'Ocultar Formulario';
+            }
+            
             isPieceEditMode = true;
             selectedPiece = piece;
             
@@ -587,8 +551,18 @@
             form.descripcion.value = piece.descripcion || "";
             document.getElementById("pieceId").value = piece.id;
             document.getElementById("pieceProductId").value = piece.producto_id;
-            
-            modal.style.display = "block";
+        }
+
+        // Resetear formulario de pieza
+        function resetPieceForm() {
+            const form = document.getElementById("pieceForm");
+            form.reset();
+            document.getElementById("pieceId").value = "";
+            if (selectedProduct) {
+                document.getElementById("pieceProductId").value = selectedProduct.id;
+            }
+            isPieceEditMode = false;
+            selectedPiece = null;
         }
 
         // Guardar pieza (añadir o actualizar)
@@ -615,7 +589,9 @@
             .then(data => {
                 if (data.success) {
                     alert(isPieceEditMode ? "Pieza actualizada correctamente" : "Pieza añadida correctamente");
-                    closePieceModal();
+                    resetPieceForm();
+                    document.getElementById("pieceFormContainer").style.display = 'none';
+                    document.getElementById("togglePieceForm").textContent = 'Mostrar Formulario';
                     loadProductPieces(selectedProduct.id);
                 } else {
                     alert("Error: " + (data.message || 'Error desconocido'));
@@ -660,7 +636,7 @@
 
         // Mostrar formulario de edición de producto
         function showEditForm(product) {
-            const modalContent = document.getElementById("productDetails");
+            const modalContent = document.getElementById("modalContent");
             const modalTitle = document.getElementById("modalTitle");
             
             modalTitle.textContent = "Editar Producto";
@@ -777,18 +753,12 @@
             });
         }
 
-        // Cerrar modal principal
+        // Cerrar modal
         function closeModal() {
             document.getElementById('productModal').style.display = 'none';
             isEditMode = false;
             selectedProduct = null;
-        }
-
-        // Cerrar modal de piezas
-        function closePieceModal() {
-            document.getElementById('pieceModal').style.display = 'none';
-            isPieceEditMode = false;
-            selectedPiece = null;
+            resetPieceForm();
         }
 
         // Configurar búsqueda
@@ -805,23 +775,6 @@
                     row.style.display = rowText.includes(query) ? '' : 'none';
                 });
             });
-        }
-
-        // Función para cambiar entre pestañas
-        function openTab(evt, tabName) {
-            const tabContents = document.getElementsByClassName("tab-content");
-            const tabButtons = document.getElementsByClassName("tab-button");
-            
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
-            }
-            
-            for (let i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove("active");
-            }
-            
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
         }
     </script>
 </body>
