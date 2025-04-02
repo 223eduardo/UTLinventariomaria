@@ -249,153 +249,57 @@
 
             <div class="grid grid-cols-2 gap-6 mt-6">
                 <!-- Bajo en stock -->
-<div>
-    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
-        <i class="fas fa-th mr-2"></i>
-        <span>Bajo en stock</span>
-    </div>
-    <div class="bg-white shadow-md rounded-b-md p-4">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr>
-                    <th class="border-b py-2 text-gray-700">Nombre</th>
-                    <th class="border-b py-2 text-gray-700">Stock</th>
-                </tr>
-            </thead>
-            <tbody id="lowStockTableBody">
-                <!-- Los productos con bajo stock se cargarán aquí -->
-                <tr>
-                    <td colspan="2" class="py-2 text-gray-600 text-center">Cargando datos...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                <div>
+                    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
+                        <i class="fas fa-th mr-2"></i>
+                        <span>Bajo en stock</span>
+                    </div>
+                    <div class="bg-white shadow-md rounded-b-md p-4">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="border-b py-2 text-gray-700">Nombre</th>
+                                    <th class="border-b py-2 text-gray-700">Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lowStockTableBody">
+                                <!-- Los productos con bajo stock se cargarán aquí -->
+                                <tr>
+                                    <td colspan="2" class="py-2 text-gray-600 text-center">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-<!-- Añadidos recientemente -->
-<div>
-    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
-        <i class="fas fa-th mr-2"></i>
-        <span>Añadidos recientemente</span>
-    </div>
-    <div class="bg-white shadow-md rounded-b-md p-4">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr>
-                    <th class="border-b py-2 text-gray-700">Nombre</th>
-                    <th class="border-b py-2 text-gray-700">Fecha</th>
-                </tr>
-            </thead>
-            <tbody id="recentProductsTableBody">
-                <!-- Los productos recientes se cargarán aquí -->
-                <tr>
-                    <td colspan="2" class="py-2 text-gray-600 text-center">Cargando datos...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                <!-- Añadidos recientemente -->
+                <div>
+                    <div class="bg-blue-900 text-white px-4 py-2 rounded-t-md flex items-center">
+                        <i class="fas fa-th mr-2"></i>
+                        <span>Añadidos recientemente</span>
+                    </div>
+                    <div class="bg-white shadow-md rounded-b-md p-4">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="border-b py-2 text-gray-700">Nombre</th>
+                                    <th class="border-b py-2 text-gray-700">Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentProductsTableBody">
+                                <!-- Los productos recientes se cargarán aquí -->
+                                <tr>
+                                    <td colspan="2" class="py-2 text-gray-600 text-center">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-
-document.addEventListener('DOMContentLoaded', function() {
-    loadTableData();
-    loadLowStockProducts();
-    loadRecentProducts();
-    setupModalEvents();
-    setupSearch();
-});
-
-// Función para cargar productos con bajo stock
-function loadLowStockProducts() {
-    fetch("php/bajo_stock.php")
-        .then(response => response.json())
-        .then(data => {
-            renderLowStockTable(data);
-        })
-        .catch(error => {
-            console.error("Error al cargar productos con bajo stock:", error);
-            document.getElementById("lowStockTableBody").innerHTML = `
-                <tr>
-                    <td colspan="2" class="py-2 text-gray-600 text-center">Error al cargar datos</td>
-                </tr>
-            `;
-        });
-}
-
-// Función para renderizar la tabla de bajo stock
-function renderLowStockTable(products) {
-    const tableBody = document.getElementById("lowStockTableBody");
-    tableBody.innerHTML = "";
-
-    if (products.length === 0) {
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="2" class="py-2 text-gray-600 text-center">No hay productos con bajo stock</td>
-            </tr>
-        `;
-        return;
-    }
-
-    products.forEach(product => {
-        const row = tableBody.insertRow();
-        row.insertCell().textContent = product.nombre;
-        row.insertCell().textContent = product.cantidad || product.stock || 'N/A';
-    });
-}
-
-// Función para cargar productos recientes
-function loadRecentProducts() {
-    fetch("php/recientes.php")
-        .then(response => response.json())
-        .then(data => {
-            renderRecentProductsTable(data);
-        })
-        .catch(error => {
-            console.error("Error al cargar productos recientes:", error);
-            document.getElementById("recentProductsTableBody").innerHTML = `
-                <tr>
-                    <td colspan="2" class="py-2 text-gray-600 text-center">Error al cargar datos</td>
-                </tr>
-            `;
-        });
-}
-
-// Función para renderizar la tabla de productos recientes
-function renderRecentProductsTable(products) {
-    const tableBody = document.getElementById("recentProductsTableBody");
-    tableBody.innerHTML = "";
-
-    if (products.length === 0) {
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="2" class="py-2 text-gray-600 text-center">No hay productos recientes</td>
-            </tr>
-        `;
-        return;
-    }
-
-    // Limitar a 3 productos como máximo
-    const recentProducts = products.slice(0, 3);
-    
-    recentProducts.forEach(product => {
-        const row = tableBody.insertRow();
-        row.insertCell().textContent = product.nombre;
-        
-        // Formatear la fecha para mostrarla mejor
-        const fechaCell = row.insertCell();
-        if (product.fecha_registro) {
-            const fecha = new Date(product.fecha_registro);
-            fechaCell.textContent = fecha.toLocaleDateString();
-        } else {
-            fechaCell.textContent = 'N/A';
-        }
-    });
-}
-        
         // Variables globales
         let selectedProduct = null;
         let selectedPiece = null;
@@ -405,10 +309,102 @@ function renderRecentProductsTable(products) {
         // Cargar datos al iniciar la página
         document.addEventListener('DOMContentLoaded', function() {
             loadTableData();
+            loadLowStockProducts();
+            loadRecentProducts();
             setupModalEvents();
             setupSearch();
+            
+            // Ocultar formulario de piezas al inicio
+            document.getElementById("pieceFormContainer").style.display = 'none';
         });
 
+        // Cargar productos con bajo stock
+        function loadLowStockProducts() {
+            fetch("php/bajo_stock.php")
+                .then(response => response.json())
+                .then(data => {
+                    renderLowStockTable(data);
+                })
+                .catch(error => {
+                    console.error("Error al cargar productos con bajo stock:", error);
+                    document.getElementById("lowStockTableBody").innerHTML = `
+                        <tr>
+                            <td colspan="2" class="py-2 text-gray-600 text-center">Error al cargar datos</td>
+                        </tr>
+                    `;
+                });
+        }
+
+        // Renderizar la tabla de bajo stock
+        function renderLowStockTable(products) {
+            const tableBody = document.getElementById("lowStockTableBody");
+            tableBody.innerHTML = "";
+
+            if (products.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="py-2 text-gray-600 text-center">No hay productos con bajo stock</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            products.forEach(product => {
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = product.nombre;
+                row.insertCell().textContent = product.cantidad || product.stock || 'N/A';
+            });
+        }
+
+        // Cargar productos recientes
+        function loadRecentProducts() {
+            fetch("php/recientes.php")
+                .then(response => response.json())
+                .then(data => {
+                    renderRecentProductsTable(data);
+                })
+                .catch(error => {
+                    console.error("Error al cargar productos recientes:", error);
+                    document.getElementById("recentProductsTableBody").innerHTML = `
+                        <tr>
+                            <td colspan="2" class="py-2 text-gray-600 text-center">Error al cargar datos</td>
+                        </tr>
+                    `;
+                });
+        }
+
+        // Renderizar la tabla de productos recientes
+        function renderRecentProductsTable(products) {
+            const tableBody = document.getElementById("recentProductsTableBody");
+            tableBody.innerHTML = "";
+
+            if (products.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="py-2 text-gray-600 text-center">No hay productos recientes</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Limitar a 3 productos como máximo
+            const recentProducts = products.slice(0, 3);
+            
+            recentProducts.forEach(product => {
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = product.nombre;
+                
+                // Formatear la fecha para mostrarla mejor
+                const fechaCell = row.insertCell();
+                if (product.fecha_registro) {
+                    const fecha = new Date(product.fecha_registro);
+                    fechaCell.textContent = fecha.toLocaleDateString();
+                } else {
+                    fechaCell.textContent = 'N/A';
+                }
+            });
+        }
+        
         // Cargar datos de la tabla principal
         function loadTableData() {
             fetch("php/buscar.php")
@@ -484,6 +480,8 @@ function renderRecentProductsTable(products) {
 
             // Configurar botón de actualización de producto
             updateBtn.addEventListener('click', function() {
+                if (!selectedProduct) return;
+                
                 if (isEditMode) {
                     submitUpdateForm();
                 } else {
@@ -497,7 +495,9 @@ function renderRecentProductsTable(products) {
             // Configurar botón para mostrar/ocultar formulario de pieza
             togglePieceFormBtn.addEventListener('click', function() {
                 const formContainer = document.getElementById("pieceFormContainer");
-                if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+                const currentDisplay = window.getComputedStyle(formContainer).display;
+                
+                if (currentDisplay === 'none') {
                     formContainer.style.display = 'block';
                     togglePieceFormBtn.textContent = 'Ocultar Formulario';
                     resetPieceForm();
@@ -647,6 +647,9 @@ function renderRecentProductsTable(products) {
             form.descripcion.value = piece.descripcion || "";
             document.getElementById("pieceId").value = piece.id;
             document.getElementById("pieceProductId").value = piece.producto_id;
+            
+            // Cambiar texto del botón de guardar
+            document.getElementById("savePieceBtn").textContent = 'Actualizar Pieza';
         }
 
         // Resetear formulario de pieza
@@ -659,6 +662,9 @@ function renderRecentProductsTable(products) {
             }
             isPieceEditMode = false;
             selectedPiece = null;
+            
+            // Restaurar texto del botón de guardar
+            document.getElementById("savePieceBtn").textContent = 'Guardar Pieza';
         }
 
         // Guardar pieza (añadir o actualizar)
