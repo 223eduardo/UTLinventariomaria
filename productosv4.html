@@ -12,20 +12,22 @@
             background-color: #f8f8f8;
             margin: 0;
             padding: 20px;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
             box-sizing: border-box;
         }
 
         .content {
             width: 100%;
             max-width: 1200px;
+            height: calc(100vh - 40px);
             margin: 0 auto;
             padding: 30px;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
-
 
         .header {
             font-size: 24px;
