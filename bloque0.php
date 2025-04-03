@@ -35,19 +35,11 @@
        Producto
       </span>
      </a>
-     
-     <a class="flex items-center text-gray-700 hover:text-blue-800">
-      <i class="fas fa-tags text-lg">
-      </i>
-      <span class="ml-2">
-       Categoria
-      </span>
-     </a>
      <a class="flex items-center text-gray-700 hover:text-blue-800">
       <i class="fas fa-hand-holding-usd text-lg">
       </i>
       <span class="ml-2">
-       Prestamos
+       Reporte
       </span>
      </a>
      <a class="flex items-center text-gray-700 hover:text-blue-800">
