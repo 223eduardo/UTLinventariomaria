@@ -25,7 +25,7 @@
                 </div>
                 <nav class="space-y-4">
                     <a class="flex items-center text-gray-700 hover:text-blue-800">
-                        <i class="fas fa-boxes text-lg">
+                        <i class="fas fa-box-open text-lg">
                         </i>
                         <span class="ml-2" onclick=(cambiarParametrom("c"))>
                             Inventario
