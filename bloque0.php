@@ -33,7 +33,7 @@
                     </a>
 
                     <a class="flex items-center text-gray-700 hover:text-blue-800">
-                        <i class="fas fa-tag text-lg">
+                        <i class="fas fa-microchip text-lg">
                         </i>
                         <span class="ml-2" onclick=(cambiarParametrom("g"))>
                             Producto
