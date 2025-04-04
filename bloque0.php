@@ -33,21 +33,21 @@
                     </a>
 
                     <a class="flex items-center text-gray-700 hover:text-blue-800">
-                        <i class="fas fa-boxes text-lg">
+                        <i class="fas fa-tag text-lg">
                         </i>
                         <span class="ml-2" onclick=(cambiarParametrom("g"))>
                             Producto
                         </span>
                     </a>
                     <a class="flex items-center text-gray-700 hover:text-blue-800">
-                        <i class="fas fa-hand-holding-usd text-lg">
+                        <i class="fas fa-chart-bar text-lg">
                         </i>
                         <span class="ml-2">
                             Reporte
                         </span>
                     </a>
                     <a class="flex items-center text-gray-700 hover:text-blue-800">
-                        <i class="fas fa-user text-lg">
+                        <i class="fas fa-user-circle text-lg">
                         </i>
                         <span class="ml-2" onclick=(cambiarParametrom("p"))>
                             Perfil
