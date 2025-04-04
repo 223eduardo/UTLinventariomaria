@@ -17,7 +17,13 @@
         <div class="w-64 bg-gray-200 p-4 flex flex-col h-full">
             <div>
                 <div class="flex items-center mb-8">
-                    <div class="w-8 h-8 bg-contain bg-center bg-no-repeat" style="background-image: url('icons_login/Imagen1.png')"></div>
+                    <div 
+        class="w-10 h-10 bg-contain bg-center bg-no-repeat"
+        style="
+            background-image: url('icons_login/Imagen1.png');
+            filter: brightness(0) saturate(100%) invert(24%) sepia(99%) saturate(1035%) hue-rotate(194deg) brightness(89%) contrast(89%);
+        "
+    ></div>
                     <span class="ml-2 text-xl font-semibold text-gray-700">
                         Almacen
                     </span>
