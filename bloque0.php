@@ -17,8 +17,7 @@
         <div class="w-64 bg-gray-200 p-4 flex flex-col h-full">
             <div>
                 <div class="flex items-center mb-8">
-                    <i class="fas fa-warehouse text-2xl text-blue-800">
-                    </i>
+                    <div class="w-8 h-8 bg-contain bg-center bg-no-repeat" style="background-image: url('icons_login/Imagen1.png')"></div>
                     <span class="ml-2 text-xl font-semibold text-gray-700">
                         Almacen
                     </span>
