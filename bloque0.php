@@ -9,6 +9,11 @@
     <script src="https://cdn.tailwindcss.com">
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        .custom-icon-filter {
+            filter: brightness(0) saturate(100%) invert(9%) sepia(99%) saturate(2833%) hue-rotate(194deg) brightness(93%) contrast(101%);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -17,14 +22,9 @@
         <div class="w-64 bg-gray-200 p-4 flex flex-col h-full">
             <div>
                 <div class="flex items-center mb-8">
-                    <div 
-        class="w-10 h-10 bg-contain bg-center bg-no-repeat"
-        style="
-            background-image: url('icons_login/Imagen1.png');
-            filter: brightness(0) saturate(100%) invert(24%) sepia(99%) saturate(1035%) hue-rotate(194deg) brightness(89%) contrast(89%);
-        "
-    ></div>
-                    <span class="ml-2 text-xl font-semibold text-gray-700">
+                    <div class="w-8 h-8 bg-contain bg-center bg-no-repeat custom-icon-filter"
+                        style="background-image: url('icons_login/Imagen1.png')"></div>
+                    <span class="ml-3 text-xl font-semibold text-gray-700">
                         Almacen
                     </span>
                 </div>
@@ -74,43 +74,22 @@
 
         <!--final-->
     </div>
-    <script>function cambiarParametroN(nuevoValor) {
-            // Obtener la URL actual
+    <script>
+        function cambiarParametroN(nuevoValor) {
             let url = window.location.href;
-
-            // Crear un objeto URL
             let urlObj = new URL(url);
-
-            // Cambiar el valor del parámetro 
             urlObj.searchParams.set("n", nuevoValor);
-
-            // Obtener la nueva URL como cadena de texto
-            let nuevaUrl = urlObj.toString();
-
-            // Redirigir a la nueva URL
-            window.location.href = nuevaUrl;
+            window.location.href = urlObj.toString();
         }
 
         function cambiarParametrom(nuevoValor) {
-            // Obtener la URL actual
             let url = window.location.href;
-
-            // Crear un objeto URL
             let urlObj = new URL(url);
-
-            // Cambiar el valor del parámetro 
             urlObj.searchParams.set("m", nuevoValor);
-
-            // Obtener la nueva URL como cadena de texto
-            let nuevaUrl = urlObj.toString();
-
-            // Redirigir a la nueva URL
-            window.location.href = nuevaUrl;
+            window.location.href = urlObj.toString();
         }
 
         function ser() {
-            dtos = "";
-
             fetch("php/salir.php", {
                 method: "POST",
                 headers: {
@@ -118,22 +97,18 @@
                     "Token": "123456"
                 }
             })
-                .then(response => response.json()) // Cambia a .json() para parsear la respuesta como JSON
+                .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    if (data.message === "completo") { // Verifica si el mensaje es "completo"
+                    if (data.message === "completo") {
                         window.location.href = "../index.php?m=p";
                     } else {
-                        errorMensaje.innerText = data.message || "Error desconocido";
-                        errorMensaje.removeAttribute("hidden");
+                        console.error("Error:", data.message);
                     }
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    errorMensaje.innerText = "Error en la solicitud";
                 });
         };
-
     </script>
 </body>
 
