@@ -18,8 +18,7 @@
             <div>
                 <div class="flex items-center mb-8">
                     <svg class="w-8 h-8" viewBox="0 0 24 24">
-                        <image href="icons_login/Imagen0.png" width="20" height="20" 
-                        style="filter: brightness(0) saturate(100%) invert(9%) sepia(99%) saturate(2833%) hue-rotate(194deg) brightness(93%) contrast(101%)"/>
+                        <image href="icons_login/Imagen0.png" width="20" height="20"/>
                         </svg>
                     <span class="ml-3 text-xl font-semibold text-gray-700">
                         Almacen
