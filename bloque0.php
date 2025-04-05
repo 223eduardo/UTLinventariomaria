@@ -18,7 +18,7 @@
             <div>
                 <div class="flex items-center mb-8">
                     <svg class="w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <image href="icons_login/Imagen0.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+                        <image href="icons_login/Imagen1.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
                         </svg>
                     <span class="ml-3 text-xl font-semibold text-gray-700">
                         Almacen
