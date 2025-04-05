@@ -40,7 +40,7 @@
                             Producto
                         </span>
                     </a>
-                    <a class="flex items-center text-gray-700 hover:text-blue-800">
+                    <a href="php/generar_reporte.php" class="flex items-center text-gray-700 hover:text-blue-800">
                         <i class="fas fa-chart-bar text-lg">
                         </i>
                         <span class="ml-2">
