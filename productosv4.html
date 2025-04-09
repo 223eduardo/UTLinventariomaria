@@ -7,7 +7,130 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Existing styles remain unchanged... */
+body-productos { font-family: 'Roboto', sans-serif; background-color: #f8f8f8; margin: 0; padding: 20px; height: 100vh; overflow: hidden; box-sizing: border-box; }
+    .content-productos {
+        width: 100%;
+        max-width: 1200px;
+        height: calc(100vh - 40px);
+        margin: 0 auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+    }
+
+    .header {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .add-product label {
+        display: block;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    .add-product input[type="text"],
+    .add-product input[type="number"],
+    .add-product select,
+    .add-product textarea {
+        display: block;
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .add-product textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+
+    .buttons {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .buttons button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+        transition: background-color 0.3s;
+        background-color: #12263a;
+        color: white;
+    }
+
+    .buttons button:hover {
+        opacity: 0.9;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 25px 0 15px 0;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #12263a;
+    }
+
+    .piece-form {
+        background-color: #f0f4f8;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .piece-actions {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    .piece-actions button {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    #piecesTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    #piecesTable th, #piecesTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #piecesTable th {
+        background-color: #12263a;
+        color: white;
+    }
+
+    #piecesTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .grid-container {
+            grid-template-columns: 1fr;
+        }
+    }
         
         .tab-menu {
             margin-bottom: 20px;
