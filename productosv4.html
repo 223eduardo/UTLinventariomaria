@@ -7,175 +7,155 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-body-productos { font-family: 'Roboto', sans-serif; background-color: #f8f8f8; margin: 0; padding: 20px; height: 100vh; overflow: hidden; box-sizing: border-box; }
-    .content-productos {
-        width: 100%;
-        max-width: 1200px;
-        height: calc(100vh - 40px);
-        margin: 0 auto;
-        padding: 30px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-    }
-
-    .header {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 30px;
-        color: #333;
-    }
-
-    .add-product label {
-        display: block;
-        font-weight: 500;
-        margin-top: 10px;
-    }
-
-    .add-product input[type="text"],
-    .add-product input[type="number"],
-    .add-product select,
-    .add-product textarea {
-        display: block;
-        width: calc(100% - 20px);
-        padding: 8px;
-        margin-top: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 16px;
-    }
-
-    .add-product textarea {
-        min-height: 80px;
-        resize: vertical;
-    }
-
-    .buttons {
-        margin-top: 20px;
-        text-align: left;
-    }
-
-    .buttons button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-right: 10px;
-        transition: background-color 0.3s;
-        background-color: #12263a;
-        color: white;
-    }
-
-    .buttons button:hover {
-        opacity: 0.9;
-    }
-
-    .section-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin: 25px 0 15px 0;
-        padding-bottom: 5px;
-        border-bottom: 2px solid #12263a;
-    }
-
-    .piece-form {
-        background-color: #f0f4f8;
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    }
-
-    .piece-actions {
-        display: flex;
-        gap: 5px;
-        margin-top: 10px;
-    }
-
-    .piece-actions button {
-        padding: 5px 10px;
-        font-size: 14px;
-    }
-
-    #piecesTable {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
-
-    #piecesTable th, #piecesTable td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-
-    #piecesTable th {
-        background-color: #12263a;
-        color: white;
-    }
-
-    #piecesTable tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    @media (max-width: 768px) {
-        .grid-container {
-            grid-template-columns: 1fr;
-        }
-    }
-        
-        .tab-menu {
-            margin-bottom: 20px;
+        body.productos {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
-        .tab-menu button {
-            padding: 10px 20px;
-            margin-right: 5px;
+        .content-productos {
+            width: 100%;
+            max-width: 1200px;
+            height: calc(100vh - 40px);
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .add-product label {
+            display: block;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .add-product input[type="text"],
+        .add-product input[type="number"],
+        .add-product select,
+        .add-product textarea {
+            display: block;
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .add-product textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .buttons button {
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
             background-color: #12263a;
             color: white;
         }
 
-        .tab-menu button.active {
-            background-color: #0e1f2d;
+        .buttons button:hover {
+            opacity: 0.9;
         }
 
-        .hidden {
-            display: none;
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 25px 0 15px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #12263a;
         }
 
-        .visible {
-            display: block;
+        .piece-form {
+            background-color: #f0f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .piece-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .piece-actions button {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        #piecesTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        #piecesTable th,
+        #piecesTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #piecesTable th {
+            background-color: #12263a;
+            color: white;
+        }
+
+        #piecesTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body class="body-productos">
     <div class="content-productos">
         <div class="header">Agregar Nuevo Producto</div>
-        <div class="tab-menu">
-            <button class="active" onclick="showAddProduct()">Agregar Producto con Piezas</button>
-            <button onclick="showAddPiece()">Agregar Solo Pieza</button>
-        </div>
-
-        <div id="add-product" class="visible">
-            <!-- Original form for adding product with pieces -->
+        <div class="add-product" id="add-product">
             <form id="productForm">
                 <div class="grid-container">
                     <div>
                         <label>Nombre:</label>
                         <input type="text" id="nombre" name="nombre" required>
+
                         <label>Tipo de Producto:</label>
                         <input type="text" id="tipo_producto" name="tipo_producto" required>
+
                         <label>Estado:</label>
                         <select id="estado" name="estado" required>
                             <option value="Disponible">Disponible</option>
@@ -187,17 +167,25 @@ body-productos { font-family: 'Roboto', sans-serif; background-color: #f8f8f8; m
                     <div>
                         <label>Persona Asignada:</label>
                         <input type="text" id="persona_asignada" name="persona_asignada">
+
                         <label>Número de Serie:</label>
                         <input type="text" id="numero_de_serie" name="numero_de_serie">
+
                         <label>Estante:</label>
                         <input type="text" id="estante" name="estante">
                     </div>
                 </div>
+
                 <label>Descripción:</label>
                 <textarea id="descripcion" name="descripcion"></textarea>
 
-                <div class="section-title">Piezas del Producto</div>
-                <div class="piece-form">
+                <div class="section-title">Opciones de Agregar</div>
+                <select id="addOption" name="addOption" onchange="togglePieceForm()">
+                    <option value="caja">Agregar Caja con Piezas</option>
+                    <option value="pieza">Agregar Pieza Individual</option>
+                </select>
+
+                <div class="piece-form" id="pieceForm">
                     <div class="grid-container">
                         <div>
                             <label>Nombre de la Pieza:</label>
@@ -245,70 +233,27 @@ body-productos { font-family: 'Roboto', sans-serif; background-color: #f8f8f8; m
                 </div>
             </form>
         </div>
-
-        <div id="add-piece" class="hidden">
-            <!-- New form for adding a single piece -->
-            <form id="pieceForm">
-                <div class="grid-container">
-                    <div>
-                        <label>Nombre de la Pieza:</label>
-                        <input type="text" id="single_piece_nombre" name="single_piece_nombre" required>
-                    </div>
-                    <div>
-                        <label>Cantidad:</label>
-                        <input type="number" id="single_piece_cantidad" name="single_piece_cantidad" min="1" value="1" required>
-                    </div>
-                    <div>
-                        <label>Estado:</label>
-                        <select id="single_piece_estado" name="single_piece_estado" required>
-                            <option value="Disponible">Disponible</option>
-                            <option value="No Disponible">No Disponible</option>
-                            <option value="Dañado">Dañado</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Descripción:</label>
-                        <textarea id="single_piece_descripcion" name="single_piece_descripcion" rows="2"></textarea>
-                    </div>
-                </div>
-
-                <div class="buttons">
-                    <button type="button" onclick="addSinglePiece()"><i class="fas fa-plus"></i> Agregar Pieza</button>
-                    <button type="button" onclick="clearSinglePieceForm()"><i class="fas fa-trash"></i> Limpiar Formulario</button>
-                </div>
-            </form>
-        </div>
     </div>
 
     <script>
-        // Existing JavaScript functionality...
+        let pieces = [];
+        
+        function togglePieceForm() {
+            const addOption = document.getElementById('addOption').value;
+            const pieceForm = document.getElementById('pieceForm');
 
-        // Show add product with pieces section
-        function showAddProduct() {
-            document.getElementById('add-product').classList.remove('hidden');
-            document.getElementById('add-product').classList.add('visible');
-            document.getElementById('add-piece').classList.remove('visible');
-            document.getElementById('add-piece').classList.add('hidden');
-            document.querySelector('.tab-menu .active').classList.remove('active');
-            document.querySelectorAll('.tab-menu button')[0].classList.add('active');
+            if (addOption === 'caja') {
+                pieceForm.style.display = 'block';
+            } else {
+                pieceForm.style.display = 'none';
+            }
         }
 
-        // Show add single piece section
-        function showAddPiece() {
-            document.getElementById('add-piece').classList.remove('hidden');
-            document.getElementById('add-piece').classList.add('visible');
-            document.getElementById('add-product').classList.remove('visible');
-            document.getElementById('add-product').classList.add('hidden');
-            document.querySelector('.tab-menu .active').classList.remove('active');
-            document.querySelectorAll('.tab-menu button')[1].classList.add('active');
-        }
-
-        // Function to add a single piece
-        function addSinglePiece() {
-            const nombre = document.getElementById('single_piece_nombre').value;
-            const cantidad = document.getElementById('single_piece_cantidad').value;
-            const estado = document.getElementById('single_piece_estado').value;
-            const descripcion = document.getElementById('single_piece_descripcion').value;
+        function addPiece() {
+            const nombre = document.getElementById('piece_nombre').value;
+            const cantidad = document.getElementById('piece_cantidad').value;
+            const estado = document.getElementById('piece_estado').value;
+            const descripcion = document.getElementById('piece_descripcion').value;
 
             if (!nombre || !cantidad) {
                 alert('Nombre y cantidad son requeridos para la pieza');
@@ -322,17 +267,114 @@ body-productos { font-family: 'Roboto', sans-serif; background-color: #f8f8f8; m
                 descripcion
             };
 
-            // Logic to save the piece can go here, or you can push to a global array and manage further
-            alert(`Pieza Agregada: ${JSON.stringify(piece)}`);
-            clearSinglePieceForm();
+            pieces.push(piece);
+            updatePiecesTable();
+            clearPieceForm();
         }
 
-        // Function to clear the single piece form
-        function clearSinglePieceForm() {
-            document.getElementById('pieceForm').reset();
+        function updatePiecesTable() {
+            const tableBody = document.getElementById('piecesTableBody');
+            tableBody.innerHTML = '';
+
+            if (pieces.length === 0) {
+                const row = tableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 4;
+                cell.textContent = 'No hay piezas agregadas';
+                cell.style.textAlign = 'center';
+                return;
+            }
+
+            pieces.forEach((piece, index) => {
+                const row = tableBody.insertRow();
+                
+                row.insertCell().textContent = piece.nombre;
+                row.insertCell().textContent = piece.cantidad;
+                row.insertCell().textContent = piece.estado;
+                
+                const actionsCell = row.insertCell();
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn-danger';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteBtn.onclick = () => removePiece(index);
+                actionsCell.appendChild(deleteBtn);
+            });
         }
 
-        // Make sure to keep your existing functions for managing adding pieces to the product.
+        function removePiece(index) {
+            if (confirm('¿Estás seguro de eliminar esta pieza?')) {
+                pieces.splice(index, 1);
+                updatePiecesTable();
+            }
+        }
+
+        function clearPieceForm() {
+            document.getElementById('piece_nombre').value = '';
+            document.getElementById('piece_cantidad').value = '1';
+            document.getElementById('piece_estado').selectedIndex = 0;
+            document.getElementById('piece_descripcion').value = '';
+        }
+
+        function clearForm() {
+            if (confirm('¿Estás seguro de limpiar todo el formulario? Se perderán todos los datos.')) {
+                document.getElementById('productForm').reset();
+                pieces = [];
+                updatePiecesTable();
+            }
+        }
+
+        async function submitProduct() {
+            const nombre = document.getElementById('nombre').value;
+            const tipo_producto = document.getElementById('tipo_producto').value;
+            const estado = document.getElementById('estado').value;
+            const persona_asignada = document.getElementById('persona_asignada').value;
+            const numero_de_serie = document.getElementById('numero_de_serie').value;
+            const estante = document.getElementById('estante').value;
+            const descripcion = document.getElementById('descripcion').value;
+
+            if (!nombre || !tipo_producto) {
+                alert('Nombre y tipo de producto son campos requeridos');
+                return;
+            }
+
+            const productData = {
+                nombre,
+                tipo_producto,
+                estado,
+                persona_asignada,
+                numero_de_serie,
+                estante,
+                descripcion,
+                pieces
+            };
+
+            try {
+                const response = await fetch('php/insert_product.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    clearForm();
+                } else {
+                    alert(result.message || 'Error al guardar el producto');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al agregar el producto.');
+            }
+        }
+
+        // Inicializar ocultando el formulario de piezas individuales
+        document.addEventListener('DOMContentLoaded', () => {
+            togglePieceForm();
+        });
     </script>
 </body>
 </html>
