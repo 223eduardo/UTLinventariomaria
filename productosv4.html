@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Producto - Almacén</title>
+    <title>Agregar Producto/Pieza - Almacén</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body.productos {
+        body.body-productos {
             font-family: 'Roboto', sans-serif;
             background-color: #f8f8f8;
             margin: 0;
@@ -34,18 +34,53 @@
             font-weight: 700;
             margin-bottom: 30px;
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .add-product label {
+        /* Estilos para las pestañas */
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background-color: #12263a;
+            color: white;
+            border-color: #12263a;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Estilos comunes para ambos formularios */
+        .add-form label {
             display: block;
             font-weight: 500;
             margin-top: 10px;
         }
 
-        .add-product input[type="text"],
-        .add-product input[type="number"],
-        .add-product select,
-        .add-product textarea {
+        .add-form input[type="text"],
+        .add-form input[type="number"],
+        .add-form select,
+        .add-form textarea {
             display: block;
             width: calc(100% - 20px);
             padding: 8px;
@@ -56,7 +91,7 @@
             font-size: 16px;
         }
 
-        .add-product textarea {
+        .add-form textarea {
             min-height: 80px;
             resize: vertical;
         }
@@ -114,8 +149,7 @@
             margin-top: 15px;
         }
 
-        #piecesTable th,
-        #piecesTable td {
+        #piecesTable th, #piecesTable td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
@@ -145,8 +179,18 @@
 </head>
 <body class="body-productos">
     <div class="content-productos">
-        <div class="header">Agregar Nuevo Producto</div>
-        <div class="add-product" id="add-product">
+        <div class="header">
+            <div>Agregar Nuevo Elemento</div>
+        </div>
+
+        <!-- Pestañas para seleccionar el tipo de elemento -->
+        <div class="tab-container">
+            <div class="tab active" onclick="switchTab('product')">Producto con Piezas</div>
+            <div class="tab" onclick="switchTab('single-piece')">Pieza Individual</div>
+        </div>
+
+        <!-- Contenido para Producto con Piezas -->
+        <div id="product-tab" class="tab-content active">
             <form id="productForm">
                 <div class="grid-container">
                     <div>
@@ -179,13 +223,8 @@
                 <label>Descripción:</label>
                 <textarea id="descripcion" name="descripcion"></textarea>
 
-                <div class="section-title">Opciones de Agregar</div>
-                <select id="addOption" name="addOption" onchange="togglePieceForm()">
-                    <option value="caja">Agregar Caja con Piezas</option>
-                    <option value="pieza">Agregar Pieza Individual</option>
-                </select>
-
-                <div class="piece-form" id="pieceForm">
+                <div class="section-title">Piezas del Producto</div>
+                <div class="piece-form">
                     <div class="grid-container">
                         <div>
                             <label>Nombre de la Pieza:</label>
@@ -233,22 +272,68 @@
                 </div>
             </form>
         </div>
+
+        <!-- Contenido para Pieza Individual -->
+        <div id="single-piece-tab" class="tab-content">
+            <form id="singlePieceForm">
+                <div class="grid-container">
+                    <div>
+                        <label>Nombre de la Pieza:</label>
+                        <input type="text" id="single_piece_nombre" name="single_piece_nombre" required>
+
+                        <label>Tipo de Pieza:</label>
+                        <input type="text" id="single_piece_tipo" name="single_piece_tipo" required>
+
+                        <label>Cantidad:</label>
+                        <input type="number" id="single_piece_cantidad" name="single_piece_cantidad" min="1" value="1" required>
+                    </div>
+                    <div>
+                        <label>Estado:</label>
+                        <select id="single_piece_estado" name="single_piece_estado" required>
+                            <option value="Disponible">Disponible</option>
+                            <option value="No Disponible">No Disponible</option>
+                            <option value="Dañado">Dañado</option>
+                        </select>
+
+                        <label>Ubicación (Estante):</label>
+                        <input type="text" id="single_piece_estante" name="single_piece_estante">
+
+                        <label>Número de Serie:</label>
+                        <input type="text" id="single_piece_serie" name="single_piece_serie">
+                    </div>
+                </div>
+
+                <label>Descripción:</label>
+                <textarea id="single_piece_descripcion" name="single_piece_descripcion"></textarea>
+
+                <div class="buttons">
+                    <button type="button" onclick="submitSinglePiece()"><i class="fas fa-save"></i> Guardar Pieza</button>
+                    <button type="button" onclick="clearSinglePieceForm()"><i class="fas fa-trash"></i> Limpiar Formulario</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
+        // Array para almacenar las piezas temporalmente (para productos)
         let pieces = [];
-        
-        function togglePieceForm() {
-            const addOption = document.getElementById('addOption').value;
-            const pieceForm = document.getElementById('pieceForm');
 
-            if (addOption === 'caja') {
-                pieceForm.style.display = 'block';
-            } else {
-                pieceForm.style.display = 'none';
-            }
+        // Función para cambiar entre pestañas
+        function switchTab(tabName) {
+            // Desactivar todas las pestañas y contenidos
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Activar la pestaña seleccionada
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
         }
 
+        // Función para agregar una pieza a la lista temporal (para productos)
         function addPiece() {
             const nombre = document.getElementById('piece_nombre').value;
             const cantidad = document.getElementById('piece_cantidad').value;
@@ -272,6 +357,7 @@
             clearPieceForm();
         }
 
+        // Función para actualizar la tabla de piezas (para productos)
         function updatePiecesTable() {
             const tableBody = document.getElementById('piecesTableBody');
             tableBody.innerHTML = '';
@@ -301,6 +387,7 @@
             });
         }
 
+        // Función para eliminar una pieza de la lista (para productos)
         function removePiece(index) {
             if (confirm('¿Estás seguro de eliminar esta pieza?')) {
                 pieces.splice(index, 1);
@@ -308,6 +395,7 @@
             }
         }
 
+        // Función para limpiar el formulario de piezas (para productos)
         function clearPieceForm() {
             document.getElementById('piece_nombre').value = '';
             document.getElementById('piece_cantidad').value = '1';
@@ -315,6 +403,7 @@
             document.getElementById('piece_descripcion').value = '';
         }
 
+        // Función para limpiar todo el formulario de productos
         function clearForm() {
             if (confirm('¿Estás seguro de limpiar todo el formulario? Se perderán todos los datos.')) {
                 document.getElementById('productForm').reset();
@@ -323,6 +412,14 @@
             }
         }
 
+        // Función para limpiar el formulario de pieza individual
+        function clearSinglePieceForm() {
+            if (confirm('¿Estás seguro de limpiar el formulario?')) {
+                document.getElementById('singlePieceForm').reset();
+            }
+        }
+
+        // Función para enviar el producto y sus piezas al servidor
         async function submitProduct() {
             const nombre = document.getElementById('nombre').value;
             const tipo_producto = document.getElementById('tipo_producto').value;
@@ -371,10 +468,54 @@
             }
         }
 
-        // Inicializar ocultando el formulario de piezas individuales
-        document.addEventListener('DOMContentLoaded', () => {
-            togglePieceForm();
-        });
+        // Función para enviar una pieza individual al servidor
+        async function submitSinglePiece() {
+            const nombre = document.getElementById('single_piece_nombre').value;
+            const tipo = document.getElementById('single_piece_tipo').value;
+            const cantidad = document.getElementById('single_piece_cantidad').value;
+            const estado = document.getElementById('single_piece_estado').value;
+            const estante = document.getElementById('single_piece_estante').value;
+            const numero_serie = document.getElementById('single_piece_serie').value;
+            const descripcion = document.getElementById('single_piece_descripcion').value;
+
+            if (!nombre || !tipo || !cantidad) {
+                alert('Nombre, tipo y cantidad son campos requeridos');
+                return;
+            }
+
+            const pieceData = {
+                nombre,
+                tipo,
+                cantidad,
+                estado,
+                estante,
+                numero_serie,
+                descripcion,
+                is_single_piece: true // Marcar como pieza individual
+            };
+
+            try {
+                const response = await fetch('php/insert_piece.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pieceData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    clearSinglePieceForm();
+                } else {
+                    alert(result.message || 'Error al guardar la pieza');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al agregar la pieza.');
+            }
+        }
     </script>
 </body>
 </html>
